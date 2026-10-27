@@ -1,0 +1,9 @@
+experiment_id: "EXP-002"
+model: "neural_fingerprint_mlp"
+spectral_dim: 14900
+fingerprint_type: "morgan_chiral_2048"
+batch_size: 64
+learning_rate: 0.0003
+epochs: 50
+loss: "bce_with_logits"
+early_stopping_patience: 10

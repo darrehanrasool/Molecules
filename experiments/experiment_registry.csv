@@ -1,0 +1,4 @@
+experiment_id,date,model_type,backbone,mrr_25,top_1_acc,top_5_acc,top_25_acc,runtime_sec,status
+EXP-001,2026-10-27,precursor_filtered_cosine,none,0.2592,0.2210,0.3120,0.4150,14.2,completed
+EXP-002,2026-10-27,neural_fingerprint_mlp,1d_cnn_mlp,0.3820,0.3150,0.4720,0.5980,185.0,completed
+EXP-003,2026-10-27,hybrid_consensus_ranker,hybrid,0.5380,0.4450,0.6720,0.8050,42.5,completed

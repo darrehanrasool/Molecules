@@ -1,0 +1,7 @@
+model_name,precursor_filter,representation,mrr_25,top_1_acc,top_5_acc,top_25_acc,latency_ms
+exact_library_match,none,raw_peaks_cosine,0.2074,0.1840,0.2410,0.2850,8.5
+precursor_filtered_cosine,15ppm,binned_dot_product,0.2592,0.2210,0.3120,0.4150,28.4
+spectral_entropy_matcher,10ppm,normalized_entropy,0.3145,0.2640,0.3850,0.4920,36.1
+ms2deepscore_siamese,15ppm,deep_siamese_embedding,0.3802,0.3100,0.4900,0.6200,95.0
+neural_fp_tanimoto,10ppm,predicted_morgan_2048,0.4680,0.3820,0.5890,0.7250,54.2
+hybrid_consensus_reranker,10ppm,multimodal_fusion,0.5380,0.4450,0.6720,0.8050,85.0

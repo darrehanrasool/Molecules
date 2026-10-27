@@ -1,0 +1,12 @@
+hardware:
+  device: "auto" # "cuda", "mps", or "cpu"
+  num_workers: 4
+  pin_memory: true
+  gpu_memory_fraction: 0.90
+  max_ram_gb: 32
+
+kaggle_constraints:
+  max_runtime_hours: 9.0
+  internet_enabled: false
+  gpu_type: "Tesla T4 / P100"
+  submission_file: "submission.csv"

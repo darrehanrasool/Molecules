@@ -1,0 +1,30 @@
+[
+  {
+    "molecule_id": "m_0014ef",
+    "precursor_mz": 255.0652,
+    "adduct": "[M-H]-",
+    "collision_energy": 50.0,
+    "peaks": [
+      [105.033, 0.42],
+      [153.018, 0.85],
+      [209.045, 0.23],
+      [254.057, 1.00],
+      [255.065, 0.15]
+    ],
+    "smiles": "O=C1C=C(c2ccccc2)Oc3cc(O)cc(O)c13"
+  },
+  {
+    "molecule_id": "m_004d06",
+    "precursor_mz": 181.0707,
+    "adduct": "[M+H]+",
+    "collision_energy": 25.0,
+    "peaks": [
+      [60.021, 0.52],
+      [73.029, 1.00],
+      [103.040, 0.35],
+      [145.050, 0.65],
+      [181.070, 0.20]
+    ],
+    "smiles": "OCC1OC(O)C(O)C(O)C1O"
+  }
+]
