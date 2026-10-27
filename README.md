@@ -15,12 +15,12 @@ An enterprise-grade, modular, research-driven machine learning repository for th
 
 This research project is designed, engineered, and maintained at the **Centre of Artificial Intelligence (CAI)** and the **Department of Computer Science & Engineering**, **Islamic University of Science and Technology (IUST), Kashmir**.
 
-| Role | Name | Designation & Affiliation | Research & Project Contribution |
-| :--- | :--- | :--- | :--- |
-| **Project Instructor & Mentor** | **Dr. Asif Assad** | Faculty Supervisor & Project Mentor, Department of Computer Science & Engineering, IUST | Research Conceptualization, Algorithmic Guidance, Experimental Design & Academic Supervision |
-| **Project Lead & ML Architect** | **Dar Rehan Rasool** | Graduate Researcher, M.Tech AI, Centre of Artificial Intelligence, IUST | Spectral Feature Engineering, Neural Retrieval Architecture, Metric Optimization & Pipeline Implementation |
-| **Contributing Researcher** | **Muneeb Syed Shah** | Graduate Researcher, M.Tech AI, Centre of Artificial Intelligence, IUST | Spectral Preprocessing, Precursor Mass Tolerancing, Benchmark Evaluations & Validation |
-| **Contributing Researcher** | **Shafiya Bashir Pampori** | Graduate Researcher, M.Tech AI, Centre of Artificial Intelligence, IUST | RDKit Tautomer Canonicalization, InChIKey14 Verification, Data Integrity & Submission Auditing |
+| Role                            | Name                       | Designation & Affiliation                                                               | Research & Project Contribution                                                                            |
+| :------------------------------ | :------------------------- | :-------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------- |
+| **Project Instructor & Mentor** | **Dr. Asif Assad**         | Faculty Supervisor & Project Mentor, Department of Computer Science & Engineering, IUST | Research Conceptualization, Algorithmic Guidance, Experimental Design & Academic Supervision               |
+| **Contributing Researcher**     | **Dar Rehan Rasool**       | Graduate Researcher, M.Tech AI, Centre of Artificial Intelligence, IUST                 | Spectral Feature Engineering, Neural Retrieval Architecture, Metric Optimization & Pipeline Implementation |
+| **Contributing Researcher**     | **Muneeb Syed Shah**       | Graduate Researcher, M.Tech AI, Centre of Artificial Intelligence, IUST                 | Spectral Preprocessing, Precursor Mass Tolerancing, Benchmark Evaluations & Validation                     |
+| **Contributing Researcher**     | **Shafiya Bashir Pampori** | Graduate Researcher, M.Tech AI, Centre of Artificial Intelligence, IUST                 | RDKit Tautomer Canonicalization, InChIKey14 Verification, Data Integrity & Submission Auditing             |
 
 - **Academic Unit**: Centre of Artificial Intelligence (CAI) & Department of Computer Science and Engineering
 - **Institution**: Islamic University of Science and Technology (IUST), Awantipora, Jammu & Kashmir, India
@@ -51,6 +51,7 @@ Submissions are evaluated on **Mean Reciprocal Rank @ 25 (MRR@25)**:
 $$\text{MRR@25} = \frac{1}{N} \sum_{i=1}^{N} \frac{1}{\text{rank}_i}$$
 
 Where:
+
 - $N$ is the total number of test molecules.
 - $\text{rank}_i$ is the 1-based position ($1 \le \text{rank}_i \le 25$) of the **first correct structure** in your candidate ranked list for molecule $i$.
 - If none of the 25 predictions is correct, molecule $i$ receives a score of $0.0$.
@@ -64,6 +65,7 @@ Where:
 ### Matching Standard: InChIKey14 via RDKit Tautomer Canonicalization
 
 Predictions are compared using **atom connectivity matching**:
+
 1. Both the predicted SMILES and ground truth SMILES are processed through RDKit's `TautomerEnumerator` canonicalization (pinned to version `2026.03.3`).
 2. The canonicalized molecule is converted to an **InChIKey**, and truncated to the **first 14-character block** (`InChIKey14`), representing the molecular skeleton and connectivity.
 3. **Stereochemical and tautomeric variations are not penalized**: For example, D-glucose and L-glucose isomers reduce to the identical InChIKey14: `WQZGKKKJIJFFOK`.
@@ -81,6 +83,7 @@ m_004d06,NCCc1ccc(O)cc1;CC(=O)Nc1ccc(O)cc1;OCC(O)CO
 ```
 
 ### Kaggle Environment Guardrails
+
 - **Execution Budget**: $\le 9$ hours runtime (CPU or GPU).
 - **Network Access**: **Disabled** during notebook submission evaluation.
 - **External Data**: Freely and publicly available external data and pre-trained models are permitted.
