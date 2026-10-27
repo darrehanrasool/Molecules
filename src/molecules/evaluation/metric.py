@@ -3,7 +3,7 @@ Mean Reciprocal Rank @ 25 (MRR@25) Competition Metric Engine
 Computes CASMI 2026 official metric with InChIKey14 atom connectivity matching.
 """
 
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 import pandas as pd
 from molecules.evaluation.canonicalization import smiles_to_inchikey14
 
