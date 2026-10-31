@@ -93,13 +93,15 @@ def load_spectra_dataframe(path: Union[str, Path]) -> List[MassSpectrumRecord]:
     for _, row in df.iterrows():
         peaks_raw = row.get("peaks", "")
         parsed_peaks = parse_peak_string(peaks_raw)
+        mid = str(row.get("molecule_id", row.get("spectrum_id", f"mol_{_}")))
+        smiles_val = row.get("normalized_smiles", row.get("smiles", None))
         rec = MassSpectrumRecord(
-            molecule_id=str(row["molecule_id"]),
+            molecule_id=mid,
             precursor_mz=float(row.get("precursor_mz", 0.0)),
             adduct=str(row.get("adduct", "[M+H]+")),
             peaks=parsed_peaks,
             collision_energy=row.get("collision_energy"),
-            smiles=str(row["smiles"]) if "smiles" in row and pd.notna(row["smiles"]) else None,
+            smiles=str(smiles_val) if pd.notna(smiles_val) and smiles_val else None,
         )
         records.append(rec)
     return records
