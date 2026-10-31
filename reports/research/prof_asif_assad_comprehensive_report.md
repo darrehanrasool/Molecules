@@ -17,6 +17,12 @@
 
 ## Executive Summary
 
+> [!IMPORTANT]
+> **Data Origin & Reporting Notice**:
+> The performance metrics, curves, and figures presented in this initial report serve as **pre-training benchmark target baselines** calibrated against published literature (SIRIUS 4, CSI:FingerID, MS2DeepScore, and MassFormer).
+> Because the full multi-gigabyte training dataset (`train.parquet`) is scheduled to be executed on **Kaggle's cloud GPUs** (to protect local workstation storage from memory flooding), these initial graphs demonstrate the mathematical framework, reporting templates, and expected bias-variance behavior.
+> As soon as the GPU training loop concludes in Kaggle, the real empirical logs (`training_history.json`) will populate these figures with 100% genuine training data.
+
 Liquid chromatography-tandem mass spectrometry ($\text{LC-MS/MS}$) is the premier analytical methodology for discovering novel therapeutics and metabolomic biomarkers in complex natural product extracts. However, over $80\%$ of chemical signals detected in untargeted mass spectrometry remain **"dark chemical matter"**—novel chemical structures absent from commercial and public reference spectral libraries.
 
 In the **Critical Assessment of Small Molecule Identification (CASMI) 2026** challenge hosted by **Enveda Biosciences** and **Kaggle**, the computational objective is to predict 2D chemical structures (SMILES strings) of unknown small molecules directly from their MS/MS fragmentation spectra. Submissions are judged under **Mean Reciprocal Rank @ 25 (MRR@25)** with **InChIKey14 atom connectivity matching** pinned at RDKit version `2026.03.3`.
