@@ -1,0 +1,26 @@
+casmi2026/
+├── data/{raw,processed,external}/
+├── src/
+│   ├── config.py
+│   ├── utils.py
+│   ├── preprocessing.py
+│   ├── dataset.py
+│   ├── model.py
+│   ├── train.py
+│   ├── retrieval.py
+│   ├── predict.py
+│   ├── evaluate.py
+│   └── visualize.py
+├── frontend/app.py
+├── backend/api.py
+├── graphs/           # 10 output plots
+├── models/           # best_model.pt, final_model.pt
+├── logs/             # history.json, per_molecule_rr.csv
+├── research_papers/
+├── notebooks/
+├── scripts/
+├── tests/
+├── docs/
+├── README.md  LICENSE  CONTRIBUTING.md  tags.md  accuracy.txt
+├── algorithms.md  guide.txt  structure.txt
+└── requirements.txt

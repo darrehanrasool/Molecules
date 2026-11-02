@@ -1,0 +1,39 @@
+{
+  "checkpoint": {
+    "path": "runs/from-best-epoch21/models/best_model.pt",
+    "best_epoch": 59,
+    "best_validation_average_precision": 0.42984754562070143
+  },
+  "train": {
+    "rows_full_epoch": 2412628,
+    "epoch_loss": 0.05993354299228938,
+    "sample_rows": 1024,
+    "sample_average_precision": 0.6602010852029627,
+    "sample_roc_auc": 0.953733251048186,
+    "sample_bit_accuracy_threshold_0_5": 0.9873819351196289,
+    "sample_note": "Accuracy-style metrics are measured on 1,024 shuffled training rows, not the full training set."
+  },
+  "validation": {
+    "rows_full_loss": 126980,
+    "metric_sample_rows": 1024,
+    "loss": 0.06645527995218065,
+    "average_precision": 0.42984754562070143,
+    "roc_auc": 0.8739679719734638,
+    "bit_accuracy_threshold_0_5": 0.9815835952758789
+  },
+  "test": {
+    "spectra": 1213,
+    "molecules": 400,
+    "labels_available": false,
+    "accuracy": null,
+    "mrr_at_25": null,
+    "note": "Processed test chunks contain no inchikey14 labels, so test accuracy and MRR cannot be computed."
+  },
+  "submission": {
+    "path": "submission.csv",
+    "run_copy_path": "runs/from-best-epoch21/submission.csv",
+    "rows": 400,
+    "candidates_per_molecule": 25,
+    "duplicate_molecule_ids": 0
+  }
+}

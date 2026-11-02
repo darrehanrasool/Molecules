@@ -1,0 +1,28 @@
+# 1. env
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+
+# 2. data  →  put train.parquet + test.parquet in data/raw/
+
+# 3. pipeline
+python -m src.preprocessing
+python -m src.train
+python -m src.predict
+python -m src.evaluate
+python -m src.visualize     # refresh all 10 charts in graphs/
+# Charts 01–07 also refresh after each completed training epoch.
+
+# 4. UI + API (two terminals)
+uvicorn backend.api:app --reload --port 8000
+streamlit run frontend\app.py
+
+# 5. git
+git init
+git add .
+git commit -m "chore: initial commit"
+git branch -M main
+git remote add origin <YOUR_REPO_URL>
+git push -u origin main
+git tag -a v1.0.0 -m "First full release"
+git push origin v1.0.0

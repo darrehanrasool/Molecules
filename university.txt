@@ -1,0 +1,17 @@
+# 1. copy project from pendrive
+#    e.g. F:\casmi2026  →  C:\Users\<you>\casmi2026
+Copy-Item -Recurse F:\casmi2026 C:\Users\$env:USERNAME\casmi2026
+cd C:\Users\$env:USERNAME\casmi2026
+
+# 2. fresh venv
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+# 3. install
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+
+# 4. if a prior .venv or __pycache__ snuck in, purge it
+Get-ChildItem -Recurse -Directory -Include __pycache__ | Remove-Item -Recurse -Force
+# 5. If PowerShell blocks venv activation:
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned

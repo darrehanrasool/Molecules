@@ -1,0 +1,36 @@
+========================================
+CASMI 2026 — FULL RUN GUIDE
+========================================
+
+STEP 1: Env
+    python -m venv .venv
+     pip install -r requirements.txt
+    .\.venv-gpu\Scripts\python.exe -m src.train
+  
+
+STEP 2: Data
+    Place train.parquet and test.parquet in data/raw/
+
+STEP 3: Preprocess
+    python src/preprocessing.py
+
+STEP 4: Train (~2-6 h on 20-core CPU; GPU faster)
+    python src/train.py
+
+STEP 5: Predict
+    python src/predict.py     → submission.csv
+
+STEP 6: Evaluate (if labels available)
+    python src/evaluate.py
+
+STEP 7: Graphs (10 plots)
+    python src/visualize.py
+
+STEP 8: UI
+    streamlit run frontend/app.py
+    uvicorn backend.api:app --reload --port 8000
+
+STEP 9: Git
+    git init; git add .; git commit -m "init"
+    git remote add origin <URL>; git push -u origin main
+    git tag -a v1.0.0 -m "First release"; git push --tags

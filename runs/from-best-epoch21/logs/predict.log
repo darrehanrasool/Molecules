@@ -1,0 +1,3 @@
+[14:24:33] INFO | Loaded model AP=0.4298
+[14:24:33] INFO | Predicting spectra from test_00001.npz
+[14:29:07] INFO | Wrote submission.csv (400 rows).

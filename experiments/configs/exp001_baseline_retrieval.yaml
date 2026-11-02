@@ -1,6 +1,0 @@
-experiment_id: "EXP-001"
-model: "precursor_filtered_cosine"
-precursor_ppm_tolerance: 15.0
-top_k_candidates: 25
-similarity: "modified_cosine"
-mz_tolerance: 0.05

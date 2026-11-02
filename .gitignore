@@ -1,66 +1,21 @@
-# Byte-compiled / optimized / DLL files
+.venv/
+.venv-gpu/
 __pycache__/
-*.py[codz]
-*$py.class
-*.so
-
-# Environments
-.env
-.env.local
-.venv
-env/
-venv/
-ENV/
-
-# Mac OS metadata
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Testing & Coverage
-.coverage
-.coverage.*
-.pytest_cache/
-htmlcov/
-coverage.xml
-
-# IDEs
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Project Data & Models (Preserve directory structure via README / .gitkeep)
+*.pyc
+.ipynb_checkpoints/
 data/raw/*
-!data/raw/README.md
-data/interim/*
-!data/interim/README.md
 data/processed/*
-!data/processed/README.md
 data/external/*
-!data/external/README.md
-data/splits/*
-!data/splits/README.md
-
-# Large ML Weights & Checkpoints
-checkpoints/*
-!checkpoints/README.md
-outputs/trained_models/*
-!outputs/trained_models/README.md
-outputs/predictions/*
-!outputs/predictions/README.md
-!outputs/predictions/sample_submission.csv
-
-# Logs
-logs/*
-!logs/README.md
-*.log
-
-# Jupyter
-.ipynb_checkpoints
-*-checkpoint.ipynb
-
-# Builds & Distributions
-build/
-dist/
-*.egg-info/
+models/*.pt
+models/*.pkl
+graphs/*.png
+graphs/*.html
+logs/*.log
+*.csv
+!sample_submission.csv
+.env
+*.pt
+**/*.pt
+*.npz
+**/*.npz
+runs/**/models/*
