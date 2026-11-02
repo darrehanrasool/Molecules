@@ -216,11 +216,20 @@ with tab_predictions:
             })
             st.dataframe(cand_table, use_container_width=True, height=380, hide_index=True)
 
-        # Structure gallery for top 6 candidates
-        st.markdown("##### 🧬 Top-Ranked Candidate 2D Molecular Structures")
+        # Structure gallery for candidates
+        st.markdown("##### 🧬 Candidate 2D Molecular Structures")
         if HAS_RDKIT:
+            num_structs = st.slider(
+                "Display candidate structures (Rank 1 to N):",
+                min_value=1,
+                max_value=len(cands_smi),
+                value=min(25, len(cands_smi)),
+                step=1,
+                key="test_struct_slider",
+                help="Adjust to render from 1 up to all 25 predicted molecular candidates."
+            )
             struct_cols = st.columns(3)
-            for i, smi in enumerate(cands_smi[:6]):
+            for i, smi in enumerate(cands_smi[:num_structs]):
                 mol = Chem.MolFromSmiles(smi)
                 c_idx = i % 3
                 with struct_cols[c_idx]:
@@ -228,7 +237,7 @@ with tab_predictions:
                         st.markdown(f"**Candidate #{i + 1}**")
                         if mol is not None:
                             img = Draw.MolToImage(mol, size=(300, 220))
-                            st.image(img, use_column_width=True)
+                            st.image(img, use_container_width=True)
                             st.caption(f"`{inchikeys[i]}`")
                         else:
                             st.warning(f"Could not render structure #{i + 1}")
@@ -353,12 +362,25 @@ with tab_interactive:
 
                 if HAS_RDKIT and smis:
                     st.subheader("🧬 Candidate 2D Molecular Structures")
+                    num_custom = st.slider(
+                        "Display candidate structures (Rank 1 to N):",
+                        min_value=1,
+                        max_value=len(smis),
+                        value=min(25, len(smis)),
+                        step=1,
+                        key="custom_struct_slider",
+                        help="Adjust to render from 1 up to all 25 predicted molecular candidates."
+                    )
                     cols = st.columns(3)
-                    for i, smi in enumerate(smis[:6]):
+                    for i, smi in enumerate(smis[:num_custom]):
                         mol = Chem.MolFromSmiles(smi)
                         if mol is not None:
                             image = Draw.MolToImage(mol, size=(320, 260))
-                            cols[i % 3].image(image, caption=f"Candidate #{i + 1} ({keys[i]})", use_column_width=True)
+                            cols[i % 3].image(
+                                image,
+                                caption=f"Candidate #{i + 1} ({keys[i]})",
+                                use_container_width=True
+                            )
             except Exception as exc:
                 st.error(f"Prediction failed: {exc}")
 
@@ -407,5 +429,5 @@ with tab_analytics:
                         st.image(
                             graph_path.read_bytes(),
                             caption=graph_path.name,
-                            use_column_width=True,
+                            use_container_width=True,
                         )
