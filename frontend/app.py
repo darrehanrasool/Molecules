@@ -92,9 +92,9 @@ except Exception as e:
 
 @st.cache_data
 def load_submission_data():
-    sub_path = CFG.WORKSPACE / "predictions" / "submission.csv"
+    sub_path = CFG.ROOT / "predictions" / "submission.csv"
     if not sub_path.exists():
-        sub_path = CFG.WORKSPACE / "submission.csv"
+        sub_path = CFG.ROOT / "submission.csv"
     sub_df = pd.read_csv(sub_path) if sub_path.exists() else None
 
     test_path = CFG.DATA_DIR / "raw" / "test.parquet"
@@ -133,7 +133,10 @@ with tab_predictions:
         with col_sel:
             selected_mol = st.selectbox("Select Test Molecule ID:", mol_ids, index=0)
         with col_download:
-            csv_bytes = (CFG.WORKSPACE / "predictions" / "submission.csv").read_bytes()
+            sub_file = CFG.ROOT / "predictions" / "submission.csv"
+            if not sub_file.exists():
+                sub_file = CFG.ROOT / "submission.csv"
+            csv_bytes = sub_file.read_bytes()
             st.download_button(
                 "📥 Download submission.csv",
                 data=csv_bytes,
