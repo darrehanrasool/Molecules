@@ -18,7 +18,7 @@ def main():
     set_seed()
     from src.config import pick_device
     device = pick_device()
-    ckpt = torch.load(CFG.MODEL_DIR / "best_model.pt", map_location=device)
+    ckpt = torch.load(CFG.MODEL_DIR / "best_model.pt", map_location=device, weights_only=False)
     model = SpectrumFPNet(ckpt["in_dim"], CFG.FP_BITS).to(device)
     model.load_state_dict(ckpt["model"]); model.eval()
     log.info(f"Loaded model AP={ckpt.get('ap', 0):.4f}")
