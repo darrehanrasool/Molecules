@@ -8,12 +8,16 @@ import sys
 import numpy as np
 import torch
 
-from rdkit import Chem, RDLogger
-from rdkit.Chem import AllChem
+try:
+    from rdkit import Chem, RDLogger
+    from rdkit.Chem import AllChem
+    RDLogger.DisableLog("rdApp.*")
+except ImportError:
+    Chem = None
+    AllChem = None
+    RDLogger = None
 
 from src.config import CFG
-
-RDLogger.DisableLog("rdApp.*")
 
 
 def set_seed(seed=CFG.SEED):
