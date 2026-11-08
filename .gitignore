@@ -19,3 +19,4 @@ logs/*.log
 *.npz
 **/*.npz
 runs/**/models/*
+kaggle_upload/
