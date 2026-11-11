@@ -41,12 +41,12 @@ This research project and benchmark platform is collaboratively developed under 
 
 | Role | Name | Designation & Affiliation | Research & Project Contribution |
 | :--- | :--- | :--- | :--- |
-| **Faculty Research Supervisor** | **Dr. Asif Assad\*** | Senior Assistant Professor & Faculty Supervisor, Dept. of CSE | Project Supervision, Research Direction, Theoretical Review & Methodological Oversight |
-| **M.Tech Student** | **Dar Rehan Rasool** | M.Tech Student, Centre for Artificial Intelligence, IUST | End-to-End System Architecture, SpectrumFPNet Model, Out-of-Core Big-Data Streaming, Candidate Retrieval & Dashboard |
-| **M.Tech Student** | **Muneeb Syed Shah** | M.Tech Student, Centre for Artificial Intelligence, IUST | Mass Spectrometry Data Preprocessing, Adduct Formulation, Feature Engineering |
-| **M.Tech Student** | **Shafiya Bashir Pampori** | M.Tech Student, Centre for Artificial Intelligence, IUST | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
+| **Faculty Research Supervisor** | **Dr. Asif Assad\*** | Senior Assistant Professor & Faculty Supervisor, Dept. of CSE, IUST | Project Supervision, Research Direction, Theoretical Review & Methodological Oversight |
+| **Lead Author & Principal Researcher** | **Dar Rehan Rasool** | M.Tech Student, Centre for Artificial Intelligence, IUST | End-to-End System Architecture, SpectrumFPNet Model, Out-of-Core Big-Data Streaming, Candidate Retrieval & Dashboard |
+| **Contributing Researcher** | **Muneeb Syed Shah** | M.Tech Student, Centre for Artificial Intelligence, IUST | Mass Spectrometry Data Preprocessing, Adduct Formulation, Feature Engineering |
+| **Contributing Researcher** | **Shafiya Bashir Pampori** | M.Tech Student, Centre for Artificial Intelligence, IUST | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
 
-- **Academic Unit**: Department of Computer Science & Engineering (CSE) & Centre for Artificial Intelligence (CAI)
+- **Academic Unit**: Centre for Artificial Intelligence (CAI) & Department of Computer Science & Engineering (CSE)
 - **Institution**: Islamic University of Science and Technology (IUST), Awantipora, Kashmir, India
 - **Copyright & Handle**: `@darrehanrasool` • [GitHub: darrehanrasool](https://github.com/darrehanrasool)
 - *\* Denotes corresponding/supervising senior faculty mentor.*
@@ -447,4 +447,4 @@ uvicorn backend.api:app --reload --port 8000
 ```
 
 **Copyright © 2026 Dar Rehan Rasool (`@darrehanrasool`). All Rights Reserved.**  
-Supervised by **Dr. Asif Assad\***, Islamic University of Science and Technology (IUST).
+Supervised by **Dr. Asif Assad\***, Dept. of Computer Science & Engineering (CSE) / Centre for Artificial Intelligence (CAI), Islamic University of Science and Technology (IUST), Kashmir.
