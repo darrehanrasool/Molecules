@@ -42,9 +42,9 @@ This research project and benchmark platform is collaboratively developed under 
 | Role | Name | Designation & Affiliation | Research & Project Contribution |
 | :--- | :--- | :--- | :--- |
 | **Faculty Research Supervisor** | **Dr. Asif Assad\*** | Senior Assistant Professor & Faculty Supervisor, Dept. of CSE | Project Supervision, Research Direction, Theoretical Review & Methodological Oversight |
-| **Lead Author & Principal ML Architect** | **Dar Rehan Rasool** | Lead Architect & ML Researcher (`@darrehanrasool`), CAI & Dept. of CSE | End-to-End System Architecture, SpectrumFPNet Model, Out-of-Core Big-Data Streaming, Candidate Retrieval & Dashboard |
-| **Contributing Graduate Researcher** | **Muneeb Syed Shah** | Graduate Researcher, M.Tech AI, CAI & Dept. of CSE | Mass Spectrometry Data Preprocessing, Adduct Formulation, Feature Engineering |
-| **Contributing Graduate Researcher** | **Shafiya Bashir Pampori** | Graduate Researcher, M.Tech AI, CAI & Dept. of CSE | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
+| **Lead Author & Principal ML Architect** | **Dar Rehan Rasool** | M.Tech Student & Lead Architect (`@darrehanrasool`), Dept. of CSE | End-to-End System Architecture, SpectrumFPNet Model, Out-of-Core Big-Data Streaming, Candidate Retrieval & Dashboard |
+| **Contributing Researcher** | **Muneeb Syed Shah** | M.Tech Student, Dept. of CSE | Mass Spectrometry Data Preprocessing, Adduct Formulation, Feature Engineering |
+| **Contributing Researcher** | **Shafiya Bashir Pampori** | M.Tech Student, Dept. of CSE | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
 
 - **Academic Unit**: Department of Computer Science & Engineering (CSE) & Centre for Artificial Intelligence (CAI)
 - **Institution**: Islamic University of Science and Technology (IUST), Awantipora, Kashmir, India

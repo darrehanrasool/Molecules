@@ -308,8 +308,8 @@ def build_html():
     <div class="report-subtitle">Deep Multi-Scale Neural Fingerprint Regression, Out-of-Core Big Data Streaming, and Sub-ppm Precursor Mass Filtered Retrieval</div>
     <div class="meta-grid">
       <div class="meta-item"><strong>Faculty Mentor & Supervisor:</strong> Dr. Asif Assad (Senior Assistant Professor, CSE)</div>
-      <div class="meta-item"><strong>Project Lead & Principal Architect:</strong> Dar Rehan Rasool (Graduate Researcher, M.Tech AI)</div>
-      <div class="meta-item"><strong>Contributing Researchers:</strong> Muneeb Syed Shah, Shafiya Bashir Pampori</div>
+      <div class="meta-item"><strong>Project Lead & Principal Architect:</strong> Dar Rehan Rasool (M.Tech Student, Dept. of CSE)</div>
+      <div class="meta-item"><strong>Contributing M.Tech Students:</strong> Muneeb Syed Shah, Shafiya Bashir Pampori</div>
       <div class="meta-item"><strong>Target Challenge & Codebase:</strong> Enveda CASMI 2026 | github.com/darrehanrasool/Molecules</div>
     </div>
   </div>
