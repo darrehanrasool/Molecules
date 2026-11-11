@@ -13,6 +13,8 @@ graphs/*.html
 logs/*.log
 *.csv
 !sample_submission.csv
+!data/examples/*.csv
+*.egg-info/
 .env
 *.pt
 **/*.pt

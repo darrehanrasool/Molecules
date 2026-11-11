@@ -6,12 +6,10 @@ import numpy as np, torch, torch.nn as nn
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from src.config import pick_device
-from sklearn.metrics import average_precision_score, roc_auc_score
 from src.config import CFG
 from src.dataset import get_dataloaders
 from src.model import SpectrumFPNet
 from src.utils import set_seed, get_logger
-from src.visualize import generate_training_graphs
 
 log = get_logger("train")
 LOG_EVERY_BATCHES = 100
@@ -50,6 +48,8 @@ def evaluate(model, loader, device, lossf):
 
     if not total_rows or not sampled_rows:
         raise RuntimeError("Validation loader produced no examples.")
+
+    from sklearn.metrics import average_precision_score, roc_auc_score
 
     P = np.concatenate(sampled_probabilities)
     Y = np.concatenate(sampled_targets)
@@ -303,6 +303,7 @@ def main(resume=False, from_best=False):
 
         _save_json(CFG.LOG_DIR / "history.json", history)
         _save_validation_sample(metric_probs, metric_targets)
+        from src.visualize import generate_training_graphs
         generate_training_graphs(history)
 
         if ap > best_ap:

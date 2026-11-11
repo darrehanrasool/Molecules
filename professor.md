@@ -8,11 +8,10 @@
 ### Academic Attribution & Authorship Hierarchy
 - **Project Instructor & Faculty Mentor**: **Dr. Asif Assad**  
   *Senior Assistant Professor, Dept. of Computer Science & Engineering, IUST*
-- **Project Lead & Principal ML Architect**: **Dar Rehan Rasool**  
-  *M.Tech Student, Department of Computer Science & Engineering, IUST*
-- **Contributing M.Tech Students**:
-  - **Muneeb Syed Shah** (*M.Tech Student, Dept. of CSE, IUST*)
-  - **Shafiya Bashir Pampori** (*M.Tech Student, Dept. of CSE, IUST*)
+- **M.Tech Students**:
+  - **Dar Rehan Rasool** (*M.Tech Student, Centre for Artificial Intelligence, IUST*)
+  - **Muneeb Syed Shah** (*M.Tech Student, Centre for Artificial Intelligence, IUST*)
+  - **Shafiya Bashir Pampori** (*M.Tech Student, Centre for Artificial Intelligence, IUST*)
 - **Target Competition**: *Enveda CASMI 2026 — Molecule ID from Mass Spectra* (`enveda-CASMI26-molecule-id-mass-spectra`)
 - **Primary Code Repository**: `https://github.com/darrehanrasool/Molecules.git`
 

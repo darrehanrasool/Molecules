@@ -2,7 +2,7 @@
 """
 Generate All 10 High-Resolution, Vibrant, Publication-Grade Scientific Visualizations.
 CASMI 2026 — Department of Computer Science & Engineering, IUST
-Supervisor: Dr. Asif Assad | Lead ML Architect: Dar Rehan Rasool | Researchers: Muneeb Syed Shah, Shafiya Bashir Pampori
+Supervisor: Dr. Asif Assad | M.Tech Students: Dar Rehan Rasool, Muneeb Syed Shah, Shafiya Bashir Pampori (Centre for Artificial Intelligence, IUST)
 """
 
 import json

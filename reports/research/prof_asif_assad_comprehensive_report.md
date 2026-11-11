@@ -4,12 +4,12 @@
 **Submitted to**: **Dr. Asif Assad**  
 *Assistant Professor & Research Mentor, Department of Computer Science & Engineering, Islamic University of Science and Technology (IUST), Kashmir*  
 
-**Research Team**:
-- **Dar Rehan Rasool** (*Project Lead & ML Architect*, M.Tech AI, CAI, IUST)
-- **Muneeb Syed Shah** (*Contributing Researcher*, M.Tech AI, CAI, IUST)
-- **Shafiya Bashir Pampori** (*Contributing Researcher*, M.Tech AI, CAI, IUST)
+**Research Team (M.Tech Students)**:
+- **Dar Rehan Rasool** (*M.Tech Student, Centre for Artificial Intelligence, IUST*)
+- **Muneeb Syed Shah** (*M.Tech Student, Centre for Artificial Intelligence, IUST*)
+- **Shafiya Bashir Pampori** (*M.Tech Student, Centre for Artificial Intelligence, IUST*)
 
-**Academic Unit**: Centre of Artificial Intelligence (CAI) & Dept. of Computer Science & Engineering, IUST Kashmir  
+**Academic Unit**: Centre for Artificial Intelligence (CAI) & Dept. of Computer Science & Engineering, IUST Kashmir  
 **Date**: October 31, 2026  
 **Repository**: [https://github.com/darrehanrasool/Molecules.git](https://github.com/darrehanrasool/Molecules.git)  
 
