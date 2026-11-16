@@ -415,7 +415,7 @@ python -m src.train --resume
 # Step 4: Perform candidate retrieval on test spectra
 python -m src.predict
 
-# Step 5: Evaluate validation metrics (MRR@25 on InChIKey14)
+# Step 5: Evaluate MRR@25 when labeled test chunks are available
 python -m src.evaluate
 
 # Step 6: Generate all 10 publication visual plots

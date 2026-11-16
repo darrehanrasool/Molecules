@@ -160,6 +160,45 @@ def estimate_neutral_mass(
     return (precursor_mz - d) * z
 
 
+def clean_peaks(
+    mzs,
+    intensities,
+    precursor_mz,
+    min_rel=0.01,
+    max_peaks=128,
+):
+    """Apply the training-time peak quality and precursor filters."""
+    if mzs is None or intensities is None:
+        return np.array([], dtype=np.float32), np.array([], dtype=np.float32)
+
+    mzs = np.asarray(mzs, dtype=np.float32)
+    intensities = np.asarray(intensities, dtype=np.float32)
+    n = min(len(mzs), len(intensities))
+    if n == 0:
+        return np.array([], dtype=np.float32), np.array([], dtype=np.float32)
+
+    mzs = mzs[:n]
+    intensities = intensities[:n]
+    valid = np.isfinite(mzs) & np.isfinite(intensities) & (intensities > 0)
+    if precursor_mz is not None:
+        valid &= mzs <= float(precursor_mz) + 2.0
+    if not np.any(valid):
+        return np.array([], dtype=np.float32), np.array([], dtype=np.float32)
+
+    mzs = mzs[valid]
+    intensities = intensities[valid]
+    threshold = float(intensities.max()) * min_rel
+    keep = intensities >= threshold
+    mzs = mzs[keep]
+    intensities = intensities[keep]
+    if len(mzs) == 0:
+        return mzs, intensities
+
+    order = np.argsort(-intensities)[:max_peaks]
+    order = order[np.argsort(mzs[order])]
+    return mzs[order], intensities[order]
+
+
 def bin_spectrum(mzs, intensities):
     """
     Convert a peak list into a dense binned spectrum.
