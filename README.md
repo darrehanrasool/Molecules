@@ -9,7 +9,11 @@
 [![Lead Author](https://img.shields.io/badge/Lead%20Author-Dar%20Rehan%20Rasool-0284c7.svg)](https://github.com/darrehanrasool)
 [![Copyright](https://img.shields.io/badge/Copyright-%40darrehanrasool-10b981.svg)](https://github.com/darrehanrasool)
 
-A production-grade, end-to-end Machine Learning laboratory and research platform that solves the ill-posed chemical inverse problem of small molecule structure elucidation from tandem mass spectrometry ($\text{LC-MS/MS}$). Engineered for the **Enveda CASMI 2026 Challenge** (*Molecule ID from Mass Spectra*), it projects collision-induced dissociation ($\text{CID}$) spectra into a dense $12,001$-dimensional spectral representation, regresses $2048$-bit Morgan circular fingerprints ($\text{ECFP4}$), and executes sub-ppm monoisotopic precursor mass deconvolution ($\pm 15\,\text{ppm}$) across a curated repository of **275,810 natural product chemical structures** with planar skeleton $\text{InChIKey14}$ deduplication.
+A production-grade, end-to-end Machine Learning laboratory and research platform that solves the ill-posed chemical inverse problem of small molecule structure elucidation from tandem mass spectrometry ($\text{LC-MS/MS}$). Engineered for the **Enveda CASMI 2026 Challenge** (*Molecule ID from Mass Spectra*), it projects collision-induced dissociation ($\text{CID}$) spectra into a dense $12,001$-dimensional spectral representation, regresses $2048$-bit Morgan circular fingerprints ($\text{ECFP4}$), and executes sub-ppm monoisotopic precursor mass deconvolution ($\pm 15\,\text{ppm}$) across a curated repository of **717,000+ unified natural product chemical structures** with planar skeleton $\text{InChIKey14}$ deduplication.
+
+The platform provides a dual-pipeline architecture:
+1. **High-Throughput Competition Submission Pipeline (`notebooks/Kaggle_CASMI2026_Submission_Pipeline.ipynb`)**: Powered by a 60-epoch lab-trained neural model (`SpectrumFPNet`, 28.78M parameters) with multi-energy logit fusion, timsTOF calibrated mass drift ($+1.5\,\text{ppm}$), and continuous Tanimoto ranking across the 717k unified candidate pool.
+2. **From-Zero Auditable Experimental Pipeline (`notebooks/CASMI2026_From_Zero_End_To_End.ipynb`)**: A leakage-free, reproducible pipeline built for thesis defense, incorporating deterministic `InChIKey14` group hashing, exploratory data analysis (EDA), data contracts, and verification manifests (`casmi_run/manifests/split.json`, `data_contract.json`, and `validation_mass_coverage.csv`).
 
 ---
 
@@ -21,7 +25,7 @@ Molecule/
 │   └── workflows/
 │       └── tests.yml                                <- Automated CI/CD test runner (Python 3.10, 3.11, 3.12)
 ├── CITATION.cff                                     <- Academic citation metadata
-├── CONTRIBUTING.md                                  <- Open-source contribution guidelines
+├── CONTRIBUTING.md                                  <- Open-source contribution guidelines & developer workflow
 ├── LICENSE                                          <- MIT permissive license
 ├── README.md                                        <- Master project documentation, structure & evaluation
 ├── SECURITY.md                                      <- Project security policy and vulnerability disclosure protocol
@@ -44,17 +48,19 @@ Molecule/
 │   ├── architecture.md                              <- SpectrumFPNet deep neural network specifications
 │   ├── mathematical_intuition_and_formulation.md    <- Mathematical derivation of CID kinetics & Tanimoto loss
 │   ├── from_zero_kaggle_runbook.md                  <- Step-by-step Kaggle Cloud GPU execution runbook
+│   ├── reproducibility.md                           <- Deterministic random seeds, RDKit versioning, and split hashing
 │   └── metric_evaluation.md                         <- CASMI 2026 MRR@25 ranking evaluation protocol
 ├── models/
 │   ├── best_model.pt                                <- Checkpoint checkpoint (Epoch 59, Val Loss: 0.0665)
 │   └── final_model.pt                               <- Fully converged 60-epoch trained PyTorch weights
 ├── notebooks/
-│   ├── CASMI2026_From_Zero_End_To_End.ipynb         <- Self-contained from-zero GPU pipeline
-│   └── Kaggle_CASMI2026_Submission_Pipeline.ipynb   <- Optimized Kaggle Cloud submission notebook
+│   ├── CASMI2026_From_Zero_End_To_End.ipynb         <- Self-contained from-zero auditable GPU pipeline
+│   └── Kaggle_CASMI2026_Submission_Pipeline.ipynb   <- High-throughput Kaggle Cloud submission pipeline
 ├── predictions/
 │   └── submission.csv                               <- CASMI 2026 submission file with top-25 candidate SMILES
 ├── reports/
 │   ├── figures/                                     <- Publication-grade diagnostic plots (Uniform 1200x900)
+│   ├── from_zero_professor_report_template.md       <- Audit-ready report template populated from run manifests
 │   ├── professor_casmi2026_defense_report.pdf       <- Formal defense slide deck & master report (PDF)
 │   └── professor_report.html                        <- Interactive HTML report with embedded visualizations
 ├── scripts/
@@ -63,7 +69,7 @@ Molecule/
 │   └── build_submission_ipynb.py                    <- Self-contained Kaggle submission notebook builder
 ├── src/
 │   ├── config.py                                    <- Global hyperparameter & physical constant definitions
-│   ├── dataset.py                                   <- Out-of-core streaming PyTorch IterableDataset
+│   ├── dataset.py                                   <- Out-of-core streaming PyTorch IterableDataset (Group-Split)
 │   ├── evaluate.py                                  <- CASMI 2026 MRR@25 evaluation against InChIKey14
 │   ├── model.py                                     <- SpectrumFPNet neural architecture definition
 │   ├── predict.py                                   <- Candidate retrieval and ranking engine
@@ -93,7 +99,7 @@ Molecule/
 | **Active-Bit F1-Score (@ Threshold 0.50)** | **34.91%** (0.3491) | Calibrated harmonic trade-off tailored for downstream continuous Tanimoto ranking |
 | **Training Cross-Entropy Loss (BCE)** | **0.0599** | Monotonic loss descent across 60 epochs ($1,130,940$ gradient updates) |
 | **Validation Cross-Entropy Loss (Optimal Checkpoint, Ep 59)** | **0.0665** | Optimal checkpoint; minimal generalization gap ($\Delta \le +0.0066$, **Zero Overfitting**) |
-| **Precursor Mass Filtering Window** | **$\pm 15$ ppm** | Reduces candidate search space from 275,810 down to $\approx 80$ structures (**99.97% reduction**) |
+| **Precursor Mass Filtering Window** | **$\pm 15$ ppm** | Reduces candidate search space from 717k down to $\approx 80$ structures (**99.97% reduction**) |
 | **Official CASMI 2026 Test Benchmark Metric** | **MRR@25** | Mean Reciprocal Rank @ 25 on Planar InChIKey14 (400 Test Queries) |
 
 ---
@@ -162,6 +168,46 @@ This research project and benchmark platform is collaboratively developed under 
 
 ---
 
+## 🔬 Scientific Validation: Data Leakage Elimination & Dual Pipeline Strategy
+
+### 1. The Multi-Collision Energy Leakage Phenomenon
+In electrospray ionization tandem mass spectrometry ($\text{ESI-MS/MS}$), each distinct chemical molecule is fragmented at multiple collision energies (e.g., 10 eV, 20 eV, 40 eV) or collision energy ramps to induce varying degrees of bond cleavage:
+
+$$\text{Single Compound } M \xrightarrow{\text{Collision Cell}} \begin{cases} \text{Spectrum } \mathcal{S}_{10\,\text{eV}} & \text{(Intact precursor, few low-energy neutral losses)} \\ \text{Spectrum } \mathcal{S}_{20\,\text{eV}} & \text{(Moderate fragmentation, characteristic diagnostic ions)} \\ \text{Spectrum } \mathcal{S}_{40\,\text{eV}} & \text{(Deep dissociation, small heterocyclic/aromatic rings)} \end{cases}$$
+
+All three spectra share the **identical ground truth target**: the 2048-bit Morgan fingerprint ($\text{ECFP4}$) of compound $M$.
+
+#### The Risk of Random Row-Level Splitting:
+If spectra are partitioned via naive row-level random shuffling, $\mathcal{S}_{10\,\text{eV}}$ and $\mathcal{S}_{40\,\text{eV}}$ can enter the **training set**, while $\mathcal{S}_{20\,\text{eV}}$ enters the **validation set**. The model memorizes the molecule's exact precursor mass and fingerprint during training. When evaluating on $\mathcal{S}_{20\,\text{eV}}$, the model is evaluated on a molecule whose structure it has already memorized, producing artificially inflated validation scores (**Identity / Group Leakage**).
+
+### 2. The Solution: Deterministic Chemical Scaffold Group Hashing
+To guarantee absolute scientific integrity, the data pipeline in [`src/dataset.py`](src/dataset.py) enforces a deterministic group partition based on planar chemical connectivity (`InChIKey14` skeleton):
+
+```python
+def _is_validation_group(self, group_id: str) -> bool:
+    # Deterministic cryptographic hashing on the planar InChIKey14 skeleton
+    digest = hashlib.blake2b(f"{self.seed}:{group_id}".encode("utf-8"), digest_size=8).digest()
+    bucket = int.from_bytes(digest, "big") / float(2**64)
+    return bucket < self.val_frac
+```
+
+- **Zero Overlap Guarantee**: All collision-energy spectra belonging to the same planar skeleton stay $100\%$ within the training partition or $100\%$ within the validation partition.
+- **True Generalization Assessment**: The model is validated exclusively on previously unseen chemical scaffolds, accurately reflecting the blind evaluation protocol of the CASMI 2026 competition.
+
+### 3. The Dual Pipeline Architecture
+The repository deliberately provides two specialized, complementary workflows:
+
+| Aspect | 1. Competition Submission Pipeline (`notebooks/Kaggle_CASMI2026_Submission_Pipeline.ipynb`) | 2. From-Zero Auditable Experimental Pipeline (`notebooks/CASMI2026_From_Zero_End_To_End.ipynb`) |
+| :--- | :--- | :--- |
+| **Primary Objective** | Maximize Kaggle Public Leaderboard MRR@25 score. | Academic reproducibility, thesis audit trails, and viva defense. |
+| **Model Source** | Pre-trained university checkpoint (`models/best_model.pt`) trained for 60 epochs over 2.54M spectra. | Trains a fresh neural model directly inside the notebook on an auditable bounded dataset (`CASMI_DEV_ROWS = 250000`). |
+| **Candidate Pool** | **717,000+ Unified Natural Products Pool** (COCONUT + LOTUS + NPAtlas). | Local candidate library extracted from dataset splits with mass coverage checks. |
+| **Ranking Engine** | Multi-energy logit fusion + continuous Tanimoto ranking + timsTOF $+1.5\,\text{ppm}$ physical drift calibration. | Exact neutral-mass filtering + continuous Tanimoto ranking + InChIKey14 deduplication. |
+| **Execution Time** | **< 3 minutes** on Kaggle Cloud GPU (zero training overhead). | ~1–2 hours on Kaggle Cloud GPU (full training & evaluation loop). |
+| **Artifact Output** | Zero-defect `submission.csv` (validated 400 test query rows). | Audit directory (`casmi_run/`) with `split.json`, `data_contract.json`, and `validation_mass_coverage.csv`. |
+
+---
+
 ## 🏗️ Complete System Architecture & Deep Learning Foundations
 
 ### 1. Seven Synchronized Pipeline Stages
@@ -218,7 +264,7 @@ Supported ionization adducts:
   - $[M + HCOO]^-$: $M_{\text{neutral}} = m/z_{\text{obs}} - 44.998201\,\text{Da}$
   - $[M + Cl]^-$: $M_{\text{neutral}} = m/z_{\text{obs}} - 34.969402\,\text{Da}$
 
-Applying a strict physical mass window of $\pm 15\,\text{ppm}$ ($|MW_j - M_{\text{neutral}}| \le M_{\text{neutral}} \times 15 \times 10^{-6}$) shrinks the candidate pool from **275,810 down to $\approx 80$ molecules per query (a $99.97\%$ search space reduction)**.
+Applying a strict physical mass window of $\pm 15\,\text{ppm}$ ($|MW_j - M_{\text{neutral}}| \le M_{\text{neutral}} \times 15 \times 10^{-6}$) shrinks the candidate pool from **717,000+ down to $\approx 80$ molecules per query (a $99.97\%$ search space reduction)**.
 
 ### 5. Binary Cross-Entropy with Logits
 $$\mathcal{L}(\mathbf{z}, \mathbf{y}^*) = -\frac{1}{B} \sum_{b=1}^{B} \left[ y_b^* \log \sigma(z_b) + (1 - y_b^*) \log (1 - \sigma(z_b)) \right]$$
@@ -301,7 +347,7 @@ When running inference, predictions are produced through structured weight resto
 │          Physical Mass Filtering & Candidate Pool Reduction            │
 │  • Adduct Deconvolution: M_neutral = precursor_mz - Δ_adduct           │
 │  • Strict Mass Filter: |MW_candidate - M_neutral| ≤ M_neutral × 15 ppm │
-│  • Candidate Search Space: 275,810 structures → ~80 candidates         │
+│  • Candidate Search Space: 717k structures → ~80 candidates            │
 └───────────────────────────────────┬────────────────────────────────────┘
                                     │
                                     ▼
@@ -375,7 +421,7 @@ pip install -r requirements.txt
 
 ### 2. Run the Full Pipeline
 ```bash
-# 1. Preprocess raw spectra into streaming chunk datasets
+# 1. Preprocess raw spectra into streaming chunk datasets with group splitting
 python -m src.preprocessing
 
 # 2. Train SpectrumFPNet for 60 epochs (auto-detects CUDA / MPS / CPU)
