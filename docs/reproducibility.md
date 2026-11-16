@@ -27,4 +27,30 @@ To guarantee bit-exact reproducibility across training runs and cross-validation
    ```
 
 3. **Data Splitting**:
-   Splits are saved directly to disk (`data/splits/cv_fold_*.csv`) based on Murcko scaffold / InChIKey skeleton partitioning to eliminate cross-fold structural leakage.
+   Training and validation rows are assigned by a deterministic hash of
+   `group_id`, which is the InChIKey14 skeleton when available and otherwise
+   `molecule_id`, not by individual spectrum rows. This keeps all
+   collision-energy spectra for one chemical group in the same split and
+   prevents row-level leakage. The split fraction and hash seed are
+   controlled by `val_frac` and `CFG.SEED` in `src/dataset.py`.
+
+## Preprocessing Contract
+
+The training and Kaggle inference paths must use the same peak contract:
+
+- discard non-finite and non-positive peaks;
+- discard peaks above `precursor_mz + 2 Da`;
+- discard peaks below 1% of the spectrum base peak;
+- retain the 128 most intense remaining peaks;
+- bin with the shared `clean_peaks` and `bin_spectrum` helpers.
+
+After changing preprocessing, regenerate processed chunks before retraining:
+
+```bash
+rm -rf data/processed/train_chunks data/processed/test_chunks
+python -m src.preprocessing
+python -m src.train
+```
+
+The Kaggle notebook contains the same cleaning logic inline because Kaggle
+executes it independently of the repository package.

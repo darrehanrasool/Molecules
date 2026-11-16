@@ -5,75 +5,12 @@ import pyarrow.parquet as pq
 from tqdm import tqdm
 
 from src.config import CFG
-from src.utils import get_logger, bin_spectrum, smiles_to_morgan
+from src.utils import get_logger, bin_spectrum, clean_peaks, smiles_to_morgan
 
 log = get_logger("preprocess")
 
 
 CHUNK_SIZE = 2000
-
-
-def clean_peaks(
-    mzs,
-    intensities,
-    precursor_mz,
-    min_rel=0.01,
-    max_peaks=128
-):
-
-    if mzs is None or len(mzs) == 0:
-        return (
-            np.array([], dtype=np.float32),
-            np.array([], dtype=np.float32)
-        )
-
-    mzs = np.asarray(mzs, dtype=np.float32)
-    intensities = np.asarray(
-        intensities,
-        dtype=np.float32
-    )
-
-    if len(intensities) == 0:
-        return (
-            np.array([], dtype=np.float32),
-            np.array([], dtype=np.float32)
-        )
-
-    max_intensity = intensities.max()
-
-    if max_intensity <= 0:
-        return (
-            np.array([], dtype=np.float32),
-            np.array([], dtype=np.float32)
-        )
-
-    keep = intensities >= (
-        min_rel * max_intensity
-    )
-
-    keep &= (
-        mzs <= precursor_mz + 2.0
-    )
-
-    mzs = mzs[keep]
-    intensities = intensities[keep]
-
-    if len(mzs) == 0:
-        return mzs, intensities
-
-    order = np.argsort(-intensities)
-
-    order = order[:max_peaks]
-
-    mzs = mzs[order]
-    intensities = intensities[order]
-
-    order = np.argsort(mzs)
-
-    return (
-        mzs[order],
-        intensities[order]
-    )
 
 
 def get_id_column(df):
@@ -99,6 +36,7 @@ def process_chunk(
     precursor_mz = []
     adducts = []
     molecule_ids = []
+    group_ids = []
 
     fingerprints = []
     smiles = []
@@ -171,6 +109,12 @@ def process_chunk(
             inchikey14.append(
                 row.get("inchikey14")
             )
+            group_value = row.get("inchikey14")
+            if pd.isna(group_value):
+                group_value = molecule_ids[-1]
+            group_ids.append(group_value)
+        else:
+            group_ids.append(molecule_ids[-1])
 
     result = {
         "spectra": np.stack(spectra),
@@ -185,7 +129,11 @@ def process_chunk(
         "molecule_id": np.asarray(
             molecule_ids,
             dtype=object
-        )
+        ),
+        "group_id": np.asarray(
+            group_ids,
+            dtype=object
+        ),
     }
 
     if has_labels:

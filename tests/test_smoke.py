@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def test_imports():
     import src.config, src.utils, src.model, src.retrieval
     assert True
@@ -7,6 +10,19 @@ def test_bin_spectrum():
     from src.utils import bin_spectrum
     v = bin_spectrum([100.0, 200.0], [1.0, 0.5])
     assert v.shape[0] > 1000 and v.max() <= 1.0
+
+
+def test_clean_peaks_matches_training_contract():
+    from src.utils import clean_peaks
+
+    mzs, intensities = clean_peaks(
+        [100.0, 200.0, 300.0],
+        [1.0, 0.001, 0.8],
+        precursor_mz=250.0,
+    )
+    np.testing.assert_allclose(mzs, [100.0])
+    np.testing.assert_allclose(intensities, [1.0])
+
 
 def test_tanimoto_accepts_compact_fingerprint_database():
     import numpy as np

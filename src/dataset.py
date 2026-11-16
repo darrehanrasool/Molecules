@@ -1,4 +1,5 @@
 """Torch Dataset for binned spectra → Morgan fingerprint."""
+import hashlib
 import numpy as np, torch
 from torch.utils.data import DataLoader, IterableDataset, get_worker_info
 from src.config import CFG
@@ -11,20 +12,31 @@ class ChunkedSpectrumDataset(IterableDataset):
         self.val_frac = val_frac
         self.seed = seed
         self.row_counts = []
+        self.split_counts = []
 
         for path in self.files:
             with np.load(path, allow_pickle=True) as data:
-                self.row_counts.append(len(data["precursor_mz"]))
+                group_ids = data["group_id"] if "group_id" in data else data["molecule_id"]
+                self.row_counts.append(len(group_ids))
+                self.split_counts.append(
+                    sum(self._is_validation_group(group_id) for group_id in group_ids)
+                )
 
         self.total_rows = sum(self.row_counts)
-        self.split_rows = sum(
-            int(count * val_frac) for count in self.row_counts
-        )
+        self.split_rows = sum(self.split_counts)
 
     def __len__(self):
         if self.split == "validation":
             return self.split_rows
         return self.total_rows - self.split_rows
+
+    def _is_validation_group(self, group_id):
+        digest = hashlib.blake2b(
+            f"{self.seed}:{group_id}".encode("utf-8"),
+            digest_size=8,
+        ).digest()
+        bucket = int.from_bytes(digest, "big") / float(2**64)
+        return bucket < self.val_frac
 
     def __iter__(self):
         worker = get_worker_info()
@@ -36,6 +48,7 @@ class ChunkedSpectrumDataset(IterableDataset):
                 spectra = data["spectra"].astype(np.float32, copy=False)
                 precursor_mz = data["precursor_mz"]
                 fingerprints = data["fp"].astype(np.float32)
+                group_ids = data["group_id"] if "group_id" in data else data["molecule_id"]
 
             precursor_feature = (
                 precursor_mz / 1000.0
@@ -44,18 +57,19 @@ class ChunkedSpectrumDataset(IterableDataset):
                 [spectra, precursor_feature], axis=1
             )
 
-            rng = np.random.default_rng(self.seed + file_index)
-            indices = rng.permutation(self.row_counts[file_index])
-            val_count = int(self.row_counts[file_index] * self.val_frac)
+            indices = np.arange(self.row_counts[file_index])
+            is_validation = np.asarray(
+                [self._is_validation_group(group_id) for group_id in group_ids],
+                dtype=bool,
+            )
             if self.split == "validation":
-                indices = indices[:val_count]
+                indices = indices[is_validation]
             else:
-                indices = indices[val_count:]
-                if worker:
-                    rng = np.random.default_rng(worker.seed + file_index)
-                    rng.shuffle(indices)
-                else:
-                    rng.shuffle(indices)
+                indices = indices[~is_validation]
+            rng = np.random.default_rng(
+                (worker.seed if worker else self.seed) + file_index
+            )
+            rng.shuffle(indices)
 
             for index in indices:
                 yield torch.from_numpy(features[index]), torch.from_numpy(
