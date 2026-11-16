@@ -25,7 +25,7 @@ Molecule/
 │   └── workflows/
 │       └── tests.yml                                <- Automated CI/CD test runner (Python 3.10, 3.11, 3.12)
 ├── CITATION.cff                                     <- Academic citation metadata
-├── CODE_OF_CONDUCT.md                               <- Contributor Covenant code of conduct & community standards
+├── CODE_OF_CONDUCT.md                               <- Academic & research code of conduct, professional ethics & standards
 ├── CONTRIBUTING.md                                  <- Open-source contribution guidelines & developer workflow
 ├── LICENSE                                          <- MIT permissive license
 ├── README.md                                        <- Master project documentation, structure & evaluation
