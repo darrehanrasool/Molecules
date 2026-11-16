@@ -140,14 +140,19 @@ $$k(E) = \frac{\sigma \cdot N^\ddagger(E - E_0)}{h \cdot \rho(E)}$$
 Because bond cleavage rates are stochastic and internal energies vary, identical molecules produce variable peak intensities at different collision energies, justifying the use of a deep multi-scale network to learn structural invariants.
 
 ### B. Binary Cross-Entropy with Logits Loss
-$$\mathcal{L}(\mathbf{z}, \mathbf{y}^*) = -\frac{1}{B} \sum_{b=1}^{B} \left[ y_b^* \log \sigma(z_b) + (1 - y_b^*) \log (1 - \sigma(z_b)) \right]$$
-where $\sigma(z) = \frac{1}{1 + e^{-z}}$ and $B = 2048$.
+$$\mathcal{L}(\mathbf{z}, \mathbf{y}) = -\frac{1}{B} \sum_{b=1}^{B} \left[ y_b \log \sigma(z_b) + (1 - y_b) \log (1 - \sigma(z_b)) \right]$$
+where $y_b \in \{0, 1\}$ is the ground-truth bit value, $z_b \in \mathbb{R}$ is the unnormalized logit output from `SpectrumFPNet`, $\sigma(z_b) = \frac{1}{1 + e^{-z_b}}$ is the predicted probability, and $B = 2048$.
 
 ### C. Continuous Tanimoto Similarity
-$$T(\hat{\mathbf{p}}, \mathbf{d}_j) = \frac{\mathbf{d}_j \cdot \hat{\mathbf{p}}}{\sum_{b=1}^{2048} d_{jb} + \sum_{b=1}^{2048} \hat{p}_b - \mathbf{d}_j \cdot \hat{\mathbf{p}} + \epsilon}$$
+$$T(\hat{\mathbf{p}}, \mathbf{d}_j) = \frac{\mathbf{d}_j \cdot \hat{\mathbf{p}}}{\sum_{b=1}^{B} d_{jb} + \sum_{b=1}^{B} \hat{p}_b - \mathbf{d}_j \cdot \hat{\mathbf{p}} + \epsilon}$$
+where $\hat{\mathbf{p}} = \sigma(\mathbf{z}) \in [0, 1]^B$ is the predicted continuous probability vector, $\mathbf{d}_j \in \{0, 1\}^B$ is candidate $j$'s precomputed binary Morgan fingerprint, and $\epsilon = 10^{-9}$ is a numerical stabilizer.
 
 ### D. Official Evaluation Metric: MRR@25 on InChIKey14
-$$\text{MRR@25} = \frac{1}{|Q|} \sum_{q=1}^{|Q|} \left( \max_{1 \le k \le 25} \left\{ \frac{\mathbb{I}(\text{InChIKey14}(C_{q, k}) = \text{InChIKey14}(M_q^*))}{k} \right\} \right)$$
+$$\text{MRR@25} = \frac{1}{|Q|} \sum_{q=1}^{|Q|} \max_{1 \le k \le 25} \left[ \frac{\mathbf{1}(\text{InChIKey14}(C_{q, k}) = \text{InChIKey14}(M_q))}{k} \right]$$
+
+Equivalently formulated via candidate retrieval rank:
+
+$$\text{MRR@25} = \frac{1}{|Q|} \sum_{q=1}^{|Q|} \begin{cases} \dfrac{1}{\text{rank}_q}, & \text{if the correct scaffold is ranked } \text{rank}_q \le 25 \\ 0, & \text{if absent or ranked } > 25 \end{cases}$$
 
 ---
 
@@ -199,6 +204,11 @@ Mass spectrometers fragment molecules by collision; they measure mass-to-charge 
 ### Q5: "What was the single biggest optimization made after the initial lab training?"
 **Answer**:
 Activating **exact precursor mass filtering ($\pm 15\,\text{ppm}$)** during candidate retrieval. In the initial lab run, the retrieval script evaluated all 275,810 candidates purely on fingerprint similarity. By precalculating exact monoisotopic neutral masses and applying the $\pm 15\,\text{ppm}$ physical constraint, we filter out 99.9% of candidate molecules before Tanimoto ranking. This reduces the search pool from 275,000 down to ~80 molecules per query, allowing our 84.1% precision neural ranker to place the true molecule in Rank 1 or Rank 2.
+
+### Q6: "How did you prevent data leakage given that a single compound produces spectra at multiple collision energies?"
+**Answer**:
+In tandem mass spectrometry, each compound is fragmented at multiple collision energies (e.g., 10 eV, 20 eV, 40 eV). If partitioned with a naive random row split, spectra of the same compound cross over into both training and validation sets, allowing the network to memorize compound identities rather than learning fragmentation substructures.
+To ensure absolute scientific integrity, we implemented deterministic **InChIKey14 chemical scaffold group hashing** using BLAKE2b in `src/dataset.py`. All spectra sharing the same planar molecular connectivity are grouped 100% into train or 100% into validation with zero leakage. This guarantees that validation strictly measures generalization to novel, unseen chemical scaffolds.
 
 ---
 
