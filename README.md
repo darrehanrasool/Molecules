@@ -173,7 +173,11 @@ This research project and benchmark platform is collaboratively developed under 
 ### 1. The Multi-Collision Energy Leakage Phenomenon
 In electrospray ionization tandem mass spectrometry ($\text{ESI-MS/MS}$), each distinct chemical molecule is fragmented at multiple collision energies (e.g., 10 eV, 20 eV, 40 eV) or collision energy ramps to induce varying degrees of bond cleavage:
 
-$$\text{Single Compound } M \xrightarrow{\text{Collision Cell}} \begin{cases} \text{Spectrum } \mathcal{S}_{10\,\text{eV}} & \text{(Intact precursor, few low-energy neutral losses)} \\ \text{Spectrum } \mathcal{S}_{20\,\text{eV}} & \text{(Moderate fragmentation, characteristic diagnostic ions)} \\ \text{Spectrum } \mathcal{S}_{40\,\text{eV}} & \text{(Deep dissociation, small heterocyclic/aromatic rings)} \end{cases}$$
+$$\text{Single Compound } M \xrightarrow{\text{Collision Cell}} \begin{cases}
+\mathcal{S}_{10\,\text{eV}} & \text{(Intact precursor, few low-energy neutral losses)} \\
+\mathcal{S}_{20\,\text{eV}} & \text{(Moderate fragmentation, characteristic diagnostic ions)} \\
+\mathcal{S}_{40\,\text{eV}} & \text{(Deep dissociation, small heterocyclic/aromatic rings)}
+\end{cases}$$
 
 All three spectra share the **identical ground truth target**: the 2048-bit Morgan fingerprint ($\text{ECFP4}$) of compound $M$.
 
@@ -267,15 +271,21 @@ Supported ionization adducts:
 Applying a strict physical mass window of $\pm 15\,\text{ppm}$ ($|MW_j - M_{\text{neutral}}| \le M_{\text{neutral}} \times 15 \times 10^{-6}$) shrinks the candidate pool from **717,000+ down to $\approx 80$ molecules per query (a $99.97\%$ search space reduction)**.
 
 ### 5. Binary Cross-Entropy with Logits
-$$\mathcal{L}(\mathbf{z}, \mathbf{y}^*) = -\frac{1}{B} \sum_{b=1}^{B} \left[ y_b^* \log \sigma(z_b) + (1 - y_b^*) \log (1 - \sigma(z_b)) \right]$$
+$$\mathcal{L}(\mathbf{z}, \mathbf{y}) = -\frac{1}{B} \sum_{b=1}^{B} \left[ y_b \log \sigma(z_b) + (1 - y_b) \log (1 - \sigma(z_b)) \right]$$
 
-where $\sigma(z) = \frac{1}{1 + e^{-z}}$ and $B = 2048$.
+where $y_b \in \{0, 1\}$ is the ground-truth bit value, $z_b \in \mathbb{R}$ is the unnormalized logit output from `SpectrumFPNet`, $\sigma(z_b) = \frac{1}{1 + e^{-z_b}}$ is the predicted probability, and $B = 2048$.
 
 ### 6. Continuous Tanimoto Similarity
-$$T(\hat{\mathbf{p}}, \mathbf{d}_j) = \frac{\mathbf{d}_j \cdot \hat{\mathbf{p}}}{\sum_{b=1}^{2048} d_{jb} + \sum_{b=1}^{2048} \hat{p}_b - \mathbf{d}_j \cdot \hat{\mathbf{p}} + \epsilon}$$
+$$T(\hat{\mathbf{p}}, \mathbf{d}_j) = \frac{\mathbf{d}_j \cdot \hat{\mathbf{p}}}{\sum_{b=1}^{B} d_{jb} + \sum_{b=1}^{B} \hat{p}_b - \mathbf{d}_j \cdot \hat{\mathbf{p}} + \epsilon}$$
+
+where $\hat{\mathbf{p}} = \sigma(\mathbf{z}) \in [0, 1]^B$ is the predicted continuous probability vector, $\mathbf{d}_j \in \{0, 1\}^B$ is candidate $j$'s precomputed binary Morgan fingerprint, and $\epsilon = 10^{-9}$ is a numerical stabilizer.
 
 ### 7. Official Evaluation Metric: MRR@25 on InChIKey14
-$$\text{MRR@25} = \frac{1}{|Q|} \sum_{q=1}^{|Q|} \left( \max_{1 \le k \le 25} \left\{ \frac{\mathbb{I}(\text{InChIKey14}(C_{q, k}) = \text{InChIKey14}(M_q^*))}{k} \right\} \right)$$
+$$\text{MRR@25} = \frac{1}{|Q|} \sum_{q=1}^{|Q|} \max_{1 \le k \le 25} \left[ \frac{\mathbf{1}(\text{InChIKey14}(C_{q, k}) = \text{InChIKey14}(M_q))}{k} \right]$$
+
+Equivalently formulated via candidate retrieval rank:
+
+$$\text{MRR@25} = \frac{1}{|Q|} \sum_{q=1}^{|Q|} \begin{cases} \dfrac{1}{\text{rank}_q}, & \text{if the correct scaffold is ranked } \text{rank}_q \le 25 \\ 0, & \text{if absent or ranked } > 25 \end{cases}$$
 
 ---
 
