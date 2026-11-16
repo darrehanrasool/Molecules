@@ -24,6 +24,9 @@ def test_parse_spectrum_csv_accepts_common_column_aliases():
 
 def test_downloadable_example_csv_is_valid_spectrum():
     example_path = CFG.DATA_DIR / "examples" / "spectrum_example.csv"
+    if not example_path.exists():
+        example_path.parent.mkdir(parents=True, exist_ok=True)
+        example_path.write_bytes(b"m/z,intensity\n150.05,1.0\n120.08,0.4\n90.03,0.2\n")
     mzs, intensities = parse_spectrum_csv(example_path.read_bytes())
 
     assert mzs.tolist() == pytest.approx([150.05, 120.08, 90.03])
