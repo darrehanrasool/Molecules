@@ -24,6 +24,7 @@ Molecule/
 ├── CONTRIBUTING.md                                  <- Open-source contribution guidelines
 ├── LICENSE                                          <- MIT permissive license
 ├── README.md                                        <- Master project documentation, structure & evaluation
+├── SECURITY.md                                      <- Project security policy and vulnerability disclosure protocol
 ├── accuracy.txt                                     <- Official quantitative test metrics & benchmark scores
 ├── algorithms.md                                    <- Detailed algorithmic formulations & pseudo-code
 ├── guide.txt                                        <- Quick command-line execution cheat sheet

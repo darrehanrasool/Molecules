@@ -8,3 +8,9 @@
 *.pt binary
 *.pkl binary
 *.png binary
+
+# GitHub Linguist overrides (exclude generated reports, HTML, and notebooks from language statistics)
+reports/** linguist-documentation=true
+*.html linguist-detectable=false
+*.ipynb linguist-documentation=true
+*.json linguist-documentation=true
