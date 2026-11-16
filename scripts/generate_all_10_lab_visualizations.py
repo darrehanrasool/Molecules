@@ -2,7 +2,11 @@
 """
 Generate All 10 High-Resolution, Vibrant, Publication-Grade Scientific Visualizations.
 CASMI 2026 — Department of Computer Science & Engineering, IUST
-Supervisor: Dr. Asif Assad | M.Tech Students: Dar Rehan Rasool, Muneeb Syed Shah, Shafiya Bashir Pampori (Centre for Artificial Intelligence, IUST)
+Faculty Research Supervisor: Dr. Asif Assad* (Senior Assistant Professor & Faculty Supervisor, Dept. of CSE, IUST)
+Lead Author & Principal Researcher: Dar Rehan Rasool (M.Tech Student, Centre for Artificial Intelligence, IUST)
+Contributing Researchers: Muneeb Syed Shah, Shafiya Bashir Pampori (M.Tech Students, Centre for Artificial Intelligence, IUST)
+
+Standard Uniform Canvas: Exactly 1200 x 900 pixels for seamless visual alignment across README and reports.
 """
 
 import json
@@ -13,6 +17,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 import seaborn as sns
 from sklearn.manifold import TSNE
 from sklearn.metrics import (
@@ -38,10 +43,15 @@ EMERALD = "#10b981"       # Mint Emerald
 BLUE = "#3b82f6"          # Sky Blue
 ORANGE = "#fb923c"        # Bright Orange
 
+# Standard uniform dimensions: 10 x 7.5 in at 120 DPI = 1200 x 900 px
+FIG_WIDTH = 10.0
+FIG_HEIGHT = 7.5
+DPI = 120
+TARGET_SIZE = (1200, 900)
+
 plt.rcParams.update({
-    "figure.dpi": 300,
-    "savefig.dpi": 300,
-    "savefig.bbox": "tight",
+    "figure.dpi": DPI,
+    "savefig.dpi": DPI,
     "figure.facecolor": BACKGROUND,
     "axes.facecolor": PANEL,
     "axes.edgecolor": CARD_BORDER,
@@ -75,11 +85,17 @@ def style_ax(ax, title, xlabel=None, ylabel=None):
     ax.spines["bottom"].set_color(CARD_BORDER)
 
 def save_fig(fig, filename):
+    plt.tight_layout(pad=2.2)
     for gd in GRAPH_DIRS:
         out_path = gd / filename
-        fig.savefig(out_path, dpi=300, facecolor=BACKGROUND)
+        fig.savefig(out_path, dpi=DPI, facecolor=BACKGROUND)
+        # Guarantee strict (1200, 900) dimensions
+        im = Image.open(out_path)
+        if im.size != TARGET_SIZE:
+            im = im.resize(TARGET_SIZE, Image.Resampling.LANCZOS)
+            im.save(out_path)
     plt.close(fig)
-    print(f"[+] Saved vibrant {filename} to all destinations.")
+    print(f"[+] Saved uniform {TARGET_SIZE[0]}x{TARGET_SIZE[1]} {filename} to all destinations.")
 
 def main():
     print("[*] Loading training history from logs/history.json...")
@@ -101,7 +117,7 @@ def main():
     # ----------------------------------------------------
     # FIG 01: Training & Validation Loss Curves (Vibrant)
     # ----------------------------------------------------
-    fig, ax = plt.subplots(figsize=(9.5, 5.5))
+    fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
     ax.plot(epochs, train_loss, color=CYAN, linewidth=2.8, label=f"Train Loss (Final: {train_loss[-1]:.4f})", zorder=3)
     ax.plot(epochs, val_loss, color=ROSE, linewidth=2.8, label=f"Val Loss (Best Ep {best_epoch}: {best_vloss:.4f})", zorder=3)
     ax.fill_between(epochs, train_loss, val_loss, color=PURPLE, alpha=0.25, label="Generalization Gap (Δ <= 0.0065)")
@@ -114,7 +130,7 @@ def main():
     # ----------------------------------------------------
     # FIG 02: Cosine Annealing Learning Rate Dynamics (Vibrant)
     # ----------------------------------------------------
-    fig, ax = plt.subplots(figsize=(9.5, 5.5))
+    fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
     ax.plot(epochs, lr, color=EMERALD, linewidth=2.8, label="CosineAnnealingLR (AdamW)", zorder=3)
     ax.fill_between(epochs, 0, lr, color=EMERALD, alpha=0.2)
     ax.scatter([epochs[0], epochs[-1]], [lr[0], lr[-1]], color=CYAN, s=80, zorder=5, edgecolor="white")
@@ -128,7 +144,7 @@ def main():
     # ----------------------------------------------------
     # FIG 03: Validation AP and ROC-AUC (Vibrant Dual-Axis)
     # ----------------------------------------------------
-    fig, ax1 = plt.subplots(figsize=(9.5, 5.5))
+    fig, ax1 = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
     ax2 = ax1.twinx()
     l1 = ax1.plot(epochs, val_ap, color=CYAN, linewidth=2.8, label=f"Average Precision (Best: {val_ap[best_idx]:.4f})", zorder=3)
     l2 = ax2.plot(epochs, val_auc, color=PURPLE, linewidth=2.8, linestyle="-", label=f"ROC-AUC (Best: {val_auc[best_idx]:.4f})", zorder=3)
@@ -148,7 +164,7 @@ def main():
     # ----------------------------------------------------
     # FIG 04: Bit Accuracy (Vibrant)
     # ----------------------------------------------------
-    fig, ax = plt.subplots(figsize=(9.5, 5.5))
+    fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
     ax.plot(epochs, val_bit_acc * 100, color=GOLD, linewidth=2.8, label="Bit-Level Accuracy (%)", zorder=3)
     ax.fill_between(epochs, 97.8, val_bit_acc * 100, color=GOLD, alpha=0.15)
     ax.scatter([best_epoch], [val_bit_acc[best_idx] * 100], color=ROSE, s=90, zorder=5, edgecolor="white")
@@ -167,7 +183,7 @@ def main():
     # ----------------------------------------------------
     # FIG 05: Precision-Recall Curve (Vibrant Multi-Point)
     # ----------------------------------------------------
-    fig, ax = plt.subplots(figsize=(9.5, 5.5))
+    fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
     prec, rec, thresholds = precision_recall_curve(targets.ravel(), probs.ravel())
     ap_score = average_precision_score(targets.ravel(), probs.ravel())
     ax.plot(rec, prec, color=CYAN, linewidth=2.8, label=f"PR Curve (AP = {ap_score:.4f})", zorder=3)
@@ -188,13 +204,12 @@ def main():
     # ----------------------------------------------------
     # FIG 06: Annotated Confusion Matrix (Decent, Colorful Heatmap)
     # ----------------------------------------------------
-    fig, ax = plt.subplots(figsize=(8.5, 6.5))
+    fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
     preds = (probs > 0.5).astype(np.uint8)
     cm = confusion_matrix(targets.ravel(), preds.ravel())
     tn, fp, fn, tp = cm.ravel()
     
     cm_display = np.array([[tn, fp], [fn, tp]])
-    # Use vibrant YlGnBu colormap
     sns.heatmap(
         cm_display, annot=True, fmt=",d", cmap="viridis", cbar=True,
         xticklabels=["Predicted Inactive (0)", "Predicted Active (1)"],
@@ -202,21 +217,20 @@ def main():
         linewidths=2.5, linecolor=BACKGROUND, ax=ax,
         annot_kws={"fontsize": 13, "fontweight": "bold", "color": "white"}
     )
-    style_ax(ax, f"06 · Bit Confusion Matrix (2,097,152 Trials | Active-Bit Precision: {tp/(tp+fp)*100:.1f}%)", "", "")
+    style_ax(ax, f"06 · Bit Confusion Matrix (2,097,152 Trials | Active-Bit Precision: {tp/(tp+fp)*100:.1f}%)", "Predicted Bit Value", "Ground Truth Bit Value")
     save_fig(fig, "06_confusion_matrix.png")
 
     # ----------------------------------------------------
     # FIG 07: Predicted vs True Fingerprint Activity (Vibrant)
     # ----------------------------------------------------
-    fig, ax = plt.subplots(figsize=(9.5, 5.5))
+    fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
     true_active = targets.sum(axis=1)
     pred_active = probs.sum(axis=1)
     corr = np.corrcoef(true_active, pred_active)[0, 1]
     
-    # Density scatter with magma / plasma colors
     scatter = ax.scatter(
         true_active, pred_active, c=np.abs(true_active - pred_active),
-        cmap="plasma", alpha=0.75, s=32, edgecolors="none", label="Validation Molecules (n=1,024)"
+        cmap="plasma", alpha=0.75, s=36, edgecolors="none", label="Validation Molecules (n=1,024)"
     )
     cbar = fig.colorbar(scatter, ax=ax, pad=0.02)
     cbar.set_label("Absolute Bit Error", color=TEXT_MAIN, fontsize=10)
@@ -251,8 +265,8 @@ def main():
     tsne = TSNE(n_components=2, perplexity=30, random_state=42, init="pca", learning_rate="auto")
     embedding = tsne.fit_transform(sub_spectra[:, top_feats])
 
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sc = ax.scatter(embedding[:, 0], embedding[:, 1], c=sub_pmz, cmap="turbo", s=34, alpha=0.85, edgecolors="none")
+    fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
+    sc = ax.scatter(embedding[:, 0], embedding[:, 1], c=sub_pmz, cmap="turbo", s=36, alpha=0.85, edgecolors="none")
     cb = fig.colorbar(sc, ax=ax, pad=0.02)
     cb.set_label("Precursor Ion Mass (m/z)", color=TEXT_MAIN, fontsize=10)
     cb.ax.yaxis.set_tick_params(color=TEXT_MUTED)
@@ -262,7 +276,7 @@ def main():
     # ----------------------------------------------------
     # FIG 09: Peak Count Distribution (Vibrant Emerald & Amber)
     # ----------------------------------------------------
-    fig, ax = plt.subplots(figsize=(9.5, 5.5))
+    fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
     peak_counts = np.count_nonzero(spectra, axis=1)
     sns.histplot(peak_counts, bins=45, color=ORANGE, kde=True, ax=ax, edgecolor=BACKGROUND, alpha=0.7)
     ax.axvline(np.mean(peak_counts), color=CYAN, linestyle="--", linewidth=2.2, label=f"Mean Peaks: {np.mean(peak_counts):.1f}")
@@ -274,7 +288,7 @@ def main():
     # ----------------------------------------------------
     # FIG 10: Precursor Mass Distribution (Vibrant Cyan & Rose)
     # ----------------------------------------------------
-    fig, ax = plt.subplots(figsize=(9.5, 5.5))
+    fig, ax = plt.subplots(figsize=(FIG_WIDTH, FIG_HEIGHT), dpi=DPI)
     sns.histplot(pmz, bins=50, color=BLUE, kde=True, ax=ax, edgecolor=BACKGROUND, alpha=0.7)
     ax.axvline(np.mean(pmz), color=ROSE, linestyle="--", linewidth=2.2, label=f"Mean Precursor: {np.mean(pmz):.1f} Da")
     ax.axvline(np.median(pmz), color=EMERALD, linestyle=":", linewidth=2.2, label=f"Median Precursor: {np.median(pmz):.1f} Da")
@@ -282,7 +296,7 @@ def main():
     ax.legend(frameon=True, facecolor=PANEL, edgecolor=CARD_BORDER, fontsize=10)
     save_fig(fig, "10_precursor_mass.png")
 
-    print("\n[+] SUCCESS! All 10 vibrant, colorful visualizations generated at 300 DPI.")
+    print("\n[+] SUCCESS! All 10 vibrant, colorful visualizations generated at uniform 1200x900 resolution.")
 
 if __name__ == "__main__":
     main()

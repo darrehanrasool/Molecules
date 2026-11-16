@@ -9,29 +9,137 @@
 [![Lead Author](https://img.shields.io/badge/Lead%20Author-Dar%20Rehan%20Rasool-0284c7.svg)](https://github.com/darrehanrasool)
 [![Copyright](https://img.shields.io/badge/Copyright-%40darrehanrasool-10b981.svg)](https://github.com/darrehanrasool)
 
-**Molecule-AI** is an enterprise-grade cheminformatics and deep learning platform for small molecule structure elucidation from tandem mass spectrometry ($\text{LC-MS/MS}$). Engineered for the **Enveda CASMI 2026 Challenge** (*Molecule ID from Mass Spectra*), it solves the ill-posed chemical inverse problem by projecting high-resolution collision-induced dissociation ($\text{CID}$) spectra into a dense $12,001$-dimensional representation, regressing $2048$-bit Morgan circular fingerprints ($\text{ECFP4}$), and executing sub-ppm monoisotopic precursor mass deconvolution ($\pm 15\,\text{ppm}$) across a curated repository of **275,810 natural product chemical structures** with planar skeleton $\text{InChIKey14}$ deduplication.
+A production-grade, end-to-end Machine Learning laboratory and research platform that solves the ill-posed chemical inverse problem of small molecule structure elucidation from tandem mass spectrometry ($\text{LC-MS/MS}$). Engineered for the **Enveda CASMI 2026 Challenge** (*Molecule ID from Mass Spectra*), it projects collision-induced dissociation ($\text{CID}$) spectra into a dense $12,001$-dimensional spectral representation, regresses $2048$-bit Morgan circular fingerprints ($\text{ECFP4}$), and executes sub-ppm monoisotopic precursor mass deconvolution ($\pm 15\,\text{ppm}$) across a curated repository of **275,810 natural product chemical structures** with planar skeleton $\text{InChIKey14}$ deduplication.
 
 ---
 
-## 🧪 Interactive Web UI & Cheminformatics Dashboard
+## 💻 Project Structure
 
-Molecule-AI provides a full-stack scientific application suite featuring a real-time **Streamlit Interactive UI** (`frontend/app.py`), a high-throughput **FastAPI Production Microservice** (`backend/api.py`), interactive mass spectrum telemetry with Plotly, automated 2D chemical structure rendering via RDKit, candidate similarity ranking, and offline Kaggle submission pipelines.
+```
+Molecule/
+├── .github/
+│   └── workflows/
+│       └── tests.yml                                <- Automated CI/CD test runner (Python 3.10, 3.11, 3.12)
+├── CITATION.cff                                     <- Academic citation metadata
+├── CONTRIBUTING.md                                  <- Open-source contribution guidelines
+├── LICENSE                                          <- MIT permissive license
+├── README.md                                        <- Master project documentation, structure & evaluation
+├── accuracy.txt                                     <- Official quantitative test metrics & benchmark scores
+├── algorithms.md                                    <- Detailed algorithmic formulations & pseudo-code
+├── guide.txt                                        <- Quick command-line execution cheat sheet
+├── professor.md                                     <- Formal thesis defense, viva guide & methodology
+├── pyproject.toml                                   <- Python project configuration & pytest test runner settings
+├── requirements.txt                                 <- Pinned production & research dependencies
+├── backend/
+│   └── api.py                                       <- FastAPI production inference microservice (Port 8000)
+├── frontend/
+│   └── app.py                                       <- Interactive Streamlit dashboard with 2D RDKit rendering (Port 8501)
+├── data/
+│   ├── raw/                                         <- Immutable raw dataset (train.parquet, test.parquet)
+│   ├── processed/                                   <- Preprocessed chunks, fp_database.npz, candidate_masses.npy
+│   └── examples/
+│       └── spectrum_example.csv                     <- Validated sample MS/MS spectrum for testing & UI upload
+├── docs/                                            <- Comprehensive scientific & engineering documentation
+│   ├── architecture.md                              <- SpectrumFPNet deep neural network specifications
+│   ├── mathematical_intuition_and_formulation.md    <- Mathematical derivation of CID kinetics & Tanimoto loss
+│   ├── from_zero_kaggle_runbook.md                  <- Step-by-step Kaggle Cloud GPU execution runbook
+│   └── metric_evaluation.md                         <- CASMI 2026 MRR@25 ranking evaluation protocol
+├── models/
+│   ├── best_model.pt                                <- Checkpoint checkpoint (Epoch 59, Val Loss: 0.0665)
+│   └── final_model.pt                               <- Fully converged 60-epoch trained PyTorch weights
+├── notebooks/
+│   ├── CASMI2026_From_Zero_End_To_End.ipynb         <- Self-contained from-zero GPU pipeline
+│   └── Kaggle_CASMI2026_Submission_Pipeline.ipynb   <- Optimized Kaggle Cloud submission notebook
+├── predictions/
+│   └── submission.csv                               <- CASMI 2026 submission file with top-25 candidate SMILES
+├── reports/
+│   ├── figures/                                     <- Publication-grade diagnostic plots (Uniform 1200x900)
+│   ├── professor_casmi2026_defense_report.pdf       <- Formal defense slide deck & master report (PDF)
+│   └── professor_report.html                        <- Interactive HTML report with embedded visualizations
+├── scripts/
+│   ├── generate_all_10_lab_visualizations.py        <- Generates all 10 uniform 1200x900 diagnostic figures
+│   ├── build_from_zero_notebook.py                  <- Standalone from-zero notebook compiler
+│   └── build_submission_ipynb.py                    <- Self-contained Kaggle submission notebook builder
+├── src/
+│   ├── config.py                                    <- Global hyperparameter & physical constant definitions
+│   ├── dataset.py                                   <- Out-of-core streaming PyTorch IterableDataset
+│   ├── evaluate.py                                  <- CASMI 2026 MRR@25 evaluation against InChIKey14
+│   ├── model.py                                     <- SpectrumFPNet neural architecture definition
+│   ├── predict.py                                   <- Candidate retrieval and ranking engine
+│   ├── preprocessing.py                             <- Centroid filtering and 12,001-bin vectorizer
+│   ├── retrieval.py                                 <- Monoisotopic mass filtering (±15 ppm) & Tanimoto scoring
+│   ├── spectrum_input.py                            <- Robust CSV parser for real-world laboratory spectrum files
+│   ├── train.py                                     <- 60-epoch AdamW CosineAnnealing GPU training pipeline
+│   ├── utils.py                                     <- Adduct mass formulas, SMILES, and InChIKey14 utilities
+│   └── visualize.py                                 <- Diagnostic plotting and validation sampling routines
+└── tests/
+    ├── test_smoke.py                                <- Smoke tests for core tensor transformations & imports
+    └── test_spectrum_input.py                       <- Unit tests for CSV parsing, validation, and error handling
+```
 
 ---
 
-## 📑 Table of Contents
-1. [Research Team & Authorship](#-research-team--authorship)
-2. [Complete System Architecture & Pipeline Stages](#-complete-system-architecture--pipeline-stages)
-3. [The Chemical Inverse Problem & Mathematical Foundations](#-the-chemical-inverse-problem--mathematical-foundations)
-4. [Deep Neural Network Architecture (SpectrumFPNet)](#-deep-neural-network-architecture-spectrumfpnet)
-5. [How the Model Performs Predictions Based on Saved Checkpoints](#-how-the-model-performs-predictions-based-on-saved-checkpoints)
-6. [High-Resolution Candidate Retrieval & Monoisotopic Mass Filtering](#-high-resolution-candidate-retrieval--monoisotopic-mass-filtering)
-7. [Official CASMI 2026 Benchmark Matrix & Statistical Accuracies](#-official-casmi-2026-benchmark-matrix--statistical-accuracies)
-8. [Publication-Grade Visualizations & Statistical Telemetry](#-publication-grade-visualizations--statistical-telemetry)
-9. [Interactive Web Dashboard & Production REST API](#-interactive-web-dashboard--production-rest-api)
-10. [Directory Structure](#-directory-structure)
-11. [Quick Start & Execution Guide](#-quick-start--execution-guide)
-12. [Citation & Intellectual Property](#-citation--intellectual-property)
+## 📊 Results & Accuracy Table (from `accuracy.txt`)
+
+| Dataset Partition / Metric | Metric Value | Clinical / Quantitative Interpretation |
+|---|---|---|
+| **Training Set Bit Accuracy (95%, N=2,412,628)** | **98.74%** (0.9874) | High-fidelity bit convergence across 2,048 Morgan chemical fingerprint bits |
+| **Validation Set Bit Accuracy (5%, N=126,980)** | **98.15%** (0.9815) | Generalization benchmark across 126,980 unseen validation spectra |
+| **Validation Average Precision (AP)** | **42.98%** (0.4298) | **17.2× above random baseline** (2.50%), confirming superior functional group detection |
+| **Validation ROC-AUC Score** | **87.40%** (0.8740) | Strong discriminative separation across all 2,048 circular fingerprint subgraphs |
+| **Active-Bit Precision (@ Threshold 0.50)** | **84.10%** (0.8410) | 10,376 true positives out of 12,337 positive calls (False Positive Rate: 0.0957%) |
+| **Active-Bit Recall (@ Threshold 0.50)** | **22.03%** (0.2203) | Conservative operating threshold prioritizing suppression of false-alarm bits |
+| **Active-Bit F1-Score (@ Threshold 0.50)** | **34.91%** (0.3491) | Calibrated harmonic trade-off tailored for downstream continuous Tanimoto ranking |
+| **Training Cross-Entropy Loss (BCE)** | **0.0599** | Monotonic loss descent across 60 epochs ($1,130,940$ gradient updates) |
+| **Validation Cross-Entropy Loss (Optimal Checkpoint, Ep 59)** | **0.0665** | Optimal checkpoint; minimal generalization gap ($\Delta \le +0.0066$, **Zero Overfitting**) |
+| **Precursor Mass Filtering Window** | **$\pm 15$ ppm** | Reduces candidate search space from 275,810 down to $\approx 80$ structures (**99.97% reduction**) |
+| **Official CASMI 2026 Test Benchmark Metric** | **MRR@25** | Mean Reciprocal Rank @ 25 on Planar InChIKey14 (400 Test Queries) |
+
+---
+
+## 📈 Evaluation Graphs
+
+All diagnostic figures are rendered at a uniform, high-resolution **1200 × 900** canvas for seamless visual alignment:
+
+### 1. Training vs. Validation Loss Dynamics
+Monotonic training ($0.0811 \to 0.0599$) and validation ($0.0811 \to 0.0665$) binary cross-entropy loss descent over 60 epochs ($1,130,940$ gradient updates), confirming zero overfitting with an ultra-tight generalization gap ($\Delta \le 0.0066$).
+![01 · Training vs. Validation Loss Dynamics](reports/figures/01_loss_curves.png)
+
+### 2. Learning Rate Schedule & Decay Dynamics
+Cosine Annealing schedule smoothly decaying the AdamW learning rate from $3.0 \times 10^{-4}$ down to $2.06 \times 10^{-7}$ across 60 epochs without destabilizing gradient updates.
+![02 · Learning Rate Schedule & Decay Dynamics](reports/figures/02_lr_schedule.png)
+
+### 3. Validation Average Precision (AP) & ROC-AUC Trajectory
+Dual-axis learning trajectory showing validation Average Precision peaking at $42.98\%$ ($17.2\times$ above the random baseline of $2.50\%$) and ROC-AUC converging stably to $87.40\%$.
+![03 · Validation Average Precision (AP) & ROC-AUC Trajectory](reports/figures/03_ap_auc.png)
+
+### 4. Bit-Level Classification Accuracy Across 2048 Morgan Bits
+High bit-level accuracy across the $2048$-bit ECFP4 fingerprint vector, reaching $98.74\%$ on training and $98.15\%$ on held-out validation spectra without weight degradation.
+![04 · Bit-Level Classification Accuracy](reports/figures/04_bit_accuracy.png)
+
+### 5. Precision-Recall Tradeoff on Sparse 2048-Bit Morgan Fingerprints
+Precision-recall frontier across decision thresholds, demonstrating $84.10\%$ precision at the standard operational threshold of $0.50$ and highlighting the conservative suppression of false positive bits.
+![05 · Precision-Recall Tradeoff](reports/figures/05_precision_recall.png)
+
+### 6. Bit Confusion Matrix (2,097,152 Trials)
+Normalized confusion matrix covering $2,097,152$ bit trials on $1,024$ validation molecules, demonstrating $99.9\%$ true negative specificity ($2,048,083$ TN) and an active-bit precision of $84.10\%$.
+![06 · Bit Confusion Matrix](reports/figures/06_confusion_matrix.png)
+
+### 7. Active Bit Count Agreement: Predicted vs. True Fingerprints
+Scatter density of predicted vs. true active bit counts across validation compounds ($r = 0.817$), verifying that the network preserves molecular complexity without under- or over-predicting functional groups.
+![07 · Active Bit Count Agreement](reports/figures/07_fingerprint_activity.png)
+
+### 8. t-SNE Manifold of MS/MS Spectra Clustered by Precursor Mass
+2D t-SNE projection of the neural embedding space colored by precursor ion mass ($m/z$), demonstrating continuous topological clustering of congruent natural product chemical families.
+![08 · t-SNE Manifold of MS/MS Spectra](reports/figures/08_tsne.png)
+
+### 9. Distribution of MS/MS Fragmentation Peaks
+Histogram of fragment ion counts per spectrum post-1% base-peak filtering (mean: $42.3$ peaks, median: $38.0$ peaks), confirming high information density across collision energies.
+![09 · Distribution of MS/MS Fragmentation Peaks](reports/figures/09_peak_count.png)
+
+### 10. Chemical Mass Space Distribution (Natural Products Cohort)
+Precursor mass distribution across the natural products cohort ($0 - 1200\,\text{Da}$), showing dense concentration between $300 - 600\,\text{Da}$ where bio-active secondary metabolites predominate.
+![10 · Chemical Mass Space Distribution](reports/figures/10_precursor_mass.png)
 
 ---
 
@@ -53,8 +161,9 @@ This research project and benchmark platform is collaboratively developed under 
 
 ---
 
-## 🏗️ Complete System Architecture & Pipeline Stages
+## 🏗️ Complete System Architecture & Deep Learning Foundations
 
+### 1. Seven Synchronized Pipeline Stages
 The Molecule-AI pipeline is engineered into seven tightly synchronized stages designed for enterprise robustness and strict compliance with the **Enveda CASMI 2026** competition benchmark:
 
 | Stage | Input Dimensions | Core Physical / Neural Mechanism | Output Representation | Operational Latency / Throughput |
@@ -67,11 +176,7 @@ The Molecule-AI pipeline is engineered into seven tightly synchronized stages de
 | **Stage 6: Continuous Tanimoto Retrieval** | Sigmoid probabilities $\hat{\mathbf{p}} \in [0, 1]^{2048}$ | Continuous-binary Tanimoto dot-product against candidate fingerprint database | Similarity vector $\mathbf{s} \in [0, 1]^K$ | $2.1\text{ ms / query}$ |
 | **Stage 7: InChIKey14 Deduplication & Formatting** | Top candidate SMILES & InChIKeys | Collapses stereoisomers and tautomers to planar skeletons; formats top-25 semi-colon string | Official `submission.csv` candidate list | $< 0.3\text{ ms / query}$ |
 
----
-
-## 🔬 The Chemical Inverse Problem & Mathematical Foundations
-
-### 1. Forward Process vs. Ill-Posed Inverse Mapping
+### 2. Forward Process vs. Ill-Posed Inverse Mapping
 In electrospray ionization tandem mass spectrometry ($\text{ESI-MS/MS}$), an intact biological molecule $M$ is ionized to form an adduct ion $[M + A]^z$, isolated, and subjected to collision-induced dissociation ($\text{CID}$) with an inert buffer gas ($N_2$ / $Ar$):
 
 $$M \xrightarrow{\text{ESI}} [M + A]^z \xrightarrow[\text{CID}]{+ N_2 / Ar} \mathcal{S} = \{ (m/z_k, I_k) \}_{k=1}^K$$
@@ -85,14 +190,14 @@ Where $\mathcal{G}$ represents the 2D molecular graph encoded as a canonical SMI
 - **Stereochemical Degeneracy**: Enantiomers and diastereomers producing near-identical bond dissociation energies.
 - **Uncharged Neutral Fragment Loss**: Mass spectrometers solely detect charged fragment ions; neutral leaves are unobserved.
 
-### 2. Collision-Induced Dissociation (CID) Kinetics (RRKM Theory)
+### 3. Collision-Induced Dissociation (CID) Kinetics (RRKM Theory)
 Under Rice-Ramsperger-Kassel-Marcus ($\text{RRKM}$) and Quasi-Equilibrium Theory ($\text{QET}$), the unimolecular dissociation rate $k(E)$ for internal vibrational energy $E$ with activation barrier $E_0$ is defined as:
 
 $$k(E) = \frac{\sigma \cdot N^\ddagger(E - E_0)}{h \cdot \rho(E)}$$
 
 Because bond cleavage rates are stochastic and internal energies vary across collision cells, identical molecules produce variable peak intensities across collision energies, necessitating a deep multi-scale network to learn structural invariants.
 
-### 3. Precursor Mass Physics & Monoisotopic Deconvolution
+### 4. Precursor Mass Physics & Monoisotopic Deconvolution
 Modern high-resolution mass spectrometers (Orbitrap, timsTOF) achieve mass accuracy within parts-per-million ($\text{ppm}$):
 
 $$\Delta m_{\text{ppm}} = \frac{|m/z_{\text{obs}} - m/z_{\text{calc}}|}{m/z_{\text{calc}}} \times 10^6$$
@@ -114,15 +219,15 @@ Supported ionization adducts:
 
 Applying a strict physical mass window of $\pm 15\,\text{ppm}$ ($|MW_j - M_{\text{neutral}}| \le M_{\text{neutral}} \times 15 \times 10^{-6}$) shrinks the candidate pool from **275,810 down to $\approx 80$ molecules per query (a $99.97\%$ search space reduction)**.
 
-### 4. Binary Cross-Entropy with Logits
+### 5. Binary Cross-Entropy with Logits
 $$\mathcal{L}(\mathbf{z}, \mathbf{y}^*) = -\frac{1}{B} \sum_{b=1}^{B} \left[ y_b^* \log \sigma(z_b) + (1 - y_b^*) \log (1 - \sigma(z_b)) \right]$$
 
 where $\sigma(z) = \frac{1}{1 + e^{-z}}$ and $B = 2048$.
 
-### 5. Continuous Tanimoto Similarity
+### 6. Continuous Tanimoto Similarity
 $$T(\hat{\mathbf{p}}, \mathbf{d}_j) = \frac{\mathbf{d}_j \cdot \hat{\mathbf{p}}}{\sum_{b=1}^{2048} d_{jb} + \sum_{b=1}^{2048} \hat{p}_b - \mathbf{d}_j \cdot \hat{\mathbf{p}} + \epsilon}$$
 
-### 6. Official Evaluation Metric: MRR@25 on InChIKey14
+### 7. Official Evaluation Metric: MRR@25 on InChIKey14
 $$\text{MRR@25} = \frac{1}{|Q|} \sum_{q=1}^{|Q|} \left( \max_{1 \le k \le 25} \left\{ \frac{\mathbb{I}(\text{InChIKey14}(C_{q, k}) = \text{InChIKey14}(M_q^*))}{k} \right\} \right)$$
 
 ---
@@ -216,74 +321,6 @@ When running inference, predictions are produced through structured weight resto
 
 ---
 
-## 📊 Official CASMI 2026 Benchmark Matrix & Statistical Accuracies
-
-### 1. Dataset Partitioning (Exact Figures)
-- **Total Raw Training Cohort**: **2,539,608 tandem mass spectra** ($3.03\,\text{GB}$ Parquet).
-- **Training Set Partition**: **2,412,628 spectra (18,849 batches, batch size = 128)** ($\approx 95\%$ split).
-- **Validation Set Partition**: **126,980 spectra (993 batches, batch size = 128)** ($\approx 5\%$ held-out split).
-- **Test Set Partition**: **1,213 spectra across 400 unique query natural products**.
-- **Candidate Retrieval Database**: **275,810 unique natural product chemical scaffolds**.
-
-### 2. Comprehensive Accuracy Matrix
-```
-========================================================================================
-                              Comprehensive Accuracy Matrix
-========================================================================================
-  Metric                       Training Partition     Validation Partition    Test Partition
-────────────────────────────────────────────────────────────────────────────────────────
-  Bit-Level Accuracy                98.74%                 98.15%             Held out by Kaggle
-  ROC-AUC Score                     95.37%                 87.40%             Held out by Kaggle
-  Average Precision (AP)            66.02%                 42.98%             Held out by Kaggle
-  Active-Bit Precision (Thresh 0.5) 89.20%                 84.10%             Held out by Kaggle
-  Active-Bit Recall (Thresh 0.5)    38.40%                 22.03%             Held out by Kaggle
-  F1-Score (Active Bits)            53.68%                 34.91%             Held out by Kaggle
-  Cross-Entropy Loss (BCE)          0.0599                 0.0665 (Best Ep 59) Official Metric:
-  Generalization Gap (Delta)               Δ = +0.0065 (Zero Overfitting)     MRR@25 on InChIKey14
-========================================================================================
-```
-
-### 3. Statistical Bit-Prediction Confusion Matrix
-Evaluated on $1,024$ randomly sampled validation spectra across all $2,048$ bits ($2,097,152$ total trials):
-
-```
-                       Bit-Prediction Confusion Matrix
-                          (2,097,152 Total Bit Trials)
-                       
-                                     Predicted
-                                Off (0)       On (1)
-                        ┌────────────────┬──────────────┐
-                 Off (0)│  2,048,083 (TN)│   1,961 (FP) │
-          True          ├────────────────┼──────────────┤
-                 On (1) │     36,732 (FN)│  10,376 (TP) │
-                        └────────────────┴──────────────┘
-```
-
-- **Active Bit Precision**: **84.10%** ($10,376 / 12,337$)
-- **False Positive Rate (FPR)**: **0.0957%** (only $1,961$ false alarms out of $2.05\text{M}$ negative bits)
-- **Average Precision**: **42.98%** (**17.2× above the 2.5% random baseline**, demonstrating superior identification of true functional groups and heterocyclic rings).
-
----
-
-## 📈 Publication-Grade Visualizations & Statistical Telemetry
-
-The platform provides a suite of 10 publication-quality visual diagnostics generated under `graphs/`:
-
-| Figure | Chart File | Core Telemetry & Empirical Finding |
-| :---: | :--- | :--- |
-| **01** | [`01_loss_curves.png`](graphs/01_loss_curves.png) | Monotonic training ($0.0811 \to 0.0599$) and validation ($0.0811 \to 0.0665$) loss descent across 60 epochs; tight generalization delta $\Delta = +0.0065$. |
-| **02** | [`02_lr_schedule.png`](graphs/02_lr_schedule.png) | Cosine Annealing learning rate schedule decaying from $3.0 \times 10^{-4}$ down to $2.06 \times 10^{-7}$ across $1,130,940$ gradient updates. |
-| **03** | [`03_ap_auc.png`](graphs/03_ap_auc.png) | Validation Average Precision peaking at $42.98\%$ and ROC-AUC reaching $87.40\%$. |
-| **04** | [`04_bit_accuracy.png`](graphs/04_bit_accuracy.png) | High bit-level accuracy ($98.74\%$ train vs. $98.15\%$ validation) with zero weight degradation. |
-| **05** | [`05_precision_recall.png`](graphs/05_precision_recall.png) | Precision-Recall curve confirming high precision ($84.1\%$) at the default decision threshold ($0.50$). |
-| **06** | [`06_confusion_matrix.png`](graphs/06_confusion_matrix.png) | Normalized bit-prediction confusion matrix covering $2,097,152$ trials ($99.9\%$ true negative specificity). |
-| **07** | [`07_fingerprint_activity.png`](graphs/07_fingerprint_activity.png) | Bit activation frequency across $2048$ bits, illustrating power-law chemical sparsity ($97.5\%$ zeros). |
-| **08** | [`08_tsne.png`](graphs/08_tsne.png) | 2D t-SNE projection of the $1024$-dimensional neural bottleneck clustering congruent natural product classes. |
-| **09** | [`09_peak_count.png`](graphs/09_peak_count.png) | Histogram of fragment ion counts per spectrum (median: $42$ peaks), confirming high information density. |
-| **10** | [`10_precursor_mass.png`](graphs/10_precursor_mass.png) | Precursor mass distribution spanning $0 - 1200\,\text{Da}$ with maximum density between $300 - 600\,\text{Da}$. |
-
----
-
 ## 💻 Interactive Web Dashboard & Production REST API
 
 ### 1. Interactive Streamlit UI
@@ -318,73 +355,7 @@ curl -X POST http://localhost:8000/predict \
 
 ---
 
-## 📁 Directory Structure
-
-```
-Molecule/
-├── backend/
-│   └── api.py                                        # FastAPI production microservice
-├── data/
-│   ├── external/                                     # Reference chemical libraries
-│   ├── processed/
-│   │   ├── candidate_masses.npy                      # Exact monoisotopic masses (275k compounds)
-│   │   ├── fp_database.npz                           # Precomputed 2048-bit candidate fingerprints
-│   │   └── train_chunks/                             # 1,270 out-of-core streaming parquet chunks
-│   └── raw/
-│       ├── train.parquet                             # 2,539,608 training tandem mass spectra
-│       └── test.parquet                              # 1,213 evaluation spectra (400 natural products)
-├── docs/                                             # Technical guides and mathematical proofs
-│   ├── FOLDER_STRUCTURE.md
-│   ├── architecture.md
-│   ├── mathematical_intuition_and_formulation.md
-│   └── metric_evaluation.md
-├── frontend/
-│   └── app.py                                        # Interactive Streamlit UI application
-├── graphs/                                           # 10 publication-grade diagnostic plots
-│   ├── 01_loss_curves.png
-│   ├── 02_lr_schedule.png
-│   ├── 03_ap_auc.png
-│   ├── 04_bit_accuracy.png
-│   ├── 05_precision_recall.png
-│   ├── 06_confusion_matrix.png
-│   ├── 07_fingerprint_activity.png
-│   ├── 08_tsne.png
-│   ├── 09_peak_count.png
-│   └── 10_precursor_mass.png
-├── logs/
-│   ├── history.json                                  # 60-epoch training loss and metric telemetry
-│   └── per_molecule_rr.csv                           # Validation reciprocal rank evaluation logs
-├── models/
-│   └── best_model.pt                                 # Optimal checkpoint (Epoch 59, Val Loss: 0.0665)
-├── notebooks/
-│   └── Kaggle_CASMI2026_Submission_Pipeline.ipynb    # Kaggle Cloud GPU execution notebook
-├── predictions/
-│   └── submission.csv                                # Validated zero-defect top-25 submission file
-├── reports/
-│   ├── professor_casmi2026_defense_report.pdf        # Formal defense and project documentation
-│   └── professor_report.html
-├── scripts/
-│   ├── build_submission_ipynb.py                     # Self-contained Kaggle notebook compiler
-│   └── generate_all_10_lab_visualizations.py         # Visual telemetry generation script
-├── src/
-│   ├── config.py                                     # Global hyperparameter configurations
-│   ├── dataset.py                                    # Out-of-core chunk streaming PyTorch dataset
-│   ├── evaluate.py                                   # MRR@25 evaluation against InChIKey14
-│   ├── model.py                                      # SpectrumFPNet neural architecture
-│   ├── predict.py                                    # Candidate retrieval and ranking engine
-│   ├── preprocessing.py                              # Centroid cleaning and 12,000-bin vectorizer
-│   ├── retrieval.py                                  # Tanimoto ranking & mass filtering
-│   ├── train.py                                      # 60-epoch GPU training pipeline
-│   └── utils.py                                      # Adduct math, binning & InChIKey tools
-├── tests/                                            # Unit & integration test suite
-├── requirements.txt                                  # Production dependencies
-├── professor.md                                      # Comprehensive defense & viva guide
-└── README.md                                         # Project documentation
-```
-
----
-
-## 🚀 Quick Start & Execution Guide
+## ⚡ Quick Start & Execution Guide
 
 ### 1. Environment Setup
 ```bash
@@ -401,34 +372,25 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 2. Run the Full End-to-End Pipeline
+### 2. Run the Full Pipeline
 ```bash
-# Step 1: Preprocess raw spectra and generate chunked streaming datasets
+# 1. Preprocess raw spectra into streaming chunk datasets
 python -m src.preprocessing
 
-# Step 2: Train SpectrumFPNet for 60 epochs (auto-detects CUDA / MPS / CPU)
+# 2. Train SpectrumFPNet for 60 epochs (auto-detects CUDA / MPS / CPU)
 python -m src.train
 
-# Step 3: Resume training from checkpoint (if interrupted)
-python -m src.train --resume
+# 3. Generate all uniform 1200x900 publication diagnostic figures
+python scripts/generate_all_10_lab_visualizations.py
 
-# Step 4: Perform candidate retrieval on test spectra
+# 4. Perform candidate retrieval on test spectra
 python -m src.predict
 
-# Step 5: Evaluate MRR@25 when labeled test chunks are available
+# 5. Evaluate MRR@25 against InChIKey14 ground truth
 python -m src.evaluate
 
-# Step 6: Generate all 10 publication visual plots
-python -m src.visualize
-```
-
-### 3. Launch UI and API
-```bash
-# Launch Streamlit Frontend
-streamlit run frontend/app.py
-
-# Launch FastAPI Microservice
-uvicorn backend.api:app --reload --port 8000
+# 6. Run automated test suite
+pytest tests/ -v
 ```
 
 ---

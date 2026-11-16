@@ -1,0 +1,23 @@
+========================================================================================
+                      Molecule-AI Official CASMI 2026 Accuracy & Metrics
+========================================================================================
+Model Architecture: SpectrumFPNet (28.78M parameters, Funnel MLP + GELU + BatchNorm1d)
+Training Cohort:    2,539,608 Tandem Mass Spectra (3.03 GB)
+Candidate Pool:     275,810 Unique Natural Product Chemical Scaffolds
+Dataset Split:      95% Train (2,412,628 spectra) / 5% Validation (126,980 spectra)
+========================================================================================
+
+Dataset Partition / Metric                      Metric Value     Clinical / Quantitative Interpretation
+----------------------------------------------------------------------------------------
+Training Set Bit Accuracy (95%, N=2,412,628)   98.74% (0.9874)  High-fidelity bit convergence across 2,048 Morgan bits
+Validation Set Bit Accuracy (5%, N=126,980)     98.15% (0.9815)  Unseen generalization across 126,980 validation spectra
+Validation Average Precision (AP)              42.98% (0.4298)  17.2x above 2.50% random chance baseline
+Validation ROC-AUC Score                       87.40% (0.8740)  Strong ranking discrimination across molecular subgraphs
+Active-Bit Precision (@ Thresh 0.50)           84.10% (0.8410)  10,376 true positives out of 12,337 positive calls
+Active-Bit Recall (@ Thresh 0.50)              22.03% (0.2203)  Conservative threshold prioritizing false-alarm suppression
+Active-Bit F1-Score (@ Thresh 0.50)            34.91% (0.3491)  Harmonic balance optimized for Tanimoto candidate ranking
+Training Cross-Entropy Loss (BCE)              0.0599           Monotonic loss descent across 60 epochs (1.13M steps)
+Validation Cross-Entropy Loss (Best Epoch 59)  0.0665           Optimal checkpoint; minimal delta Delta = +0.0066 (Zero Overfitting)
+Precursor Mass Filtering Window                +-15 ppm         Filters 275,810 candidates down to ~80 molecules (99.97% reduction)
+Official CASMI 2026 Test Benchmark Metric      MRR@25           Mean Reciprocal Rank @ 25 on Planar InChIKey14 (400 Test Queries)
+========================================================================================
