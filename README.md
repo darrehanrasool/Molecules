@@ -66,6 +66,7 @@ Molecule/
 │   └── professor_report.html                        <- Interactive HTML report with embedded visualizations
 ├── scripts/
 │   ├── generate_all_10_lab_visualizations.py        <- Generates all 10 uniform 1200x900 diagnostic figures
+│   ├── capture_ui_screenshot.py                     <- Automated headless Chrome UI screenshot capture
 │   ├── build_from_zero_notebook.py                  <- Standalone from-zero notebook compiler
 │   └── build_submission_ipynb.py                    <- Self-contained Kaggle submission notebook builder
 ├── src/
@@ -148,6 +149,10 @@ Histogram of fragment ion counts per spectrum post-1% base-peak filtering (mean:
 ### 10. Chemical Mass Space Distribution (Natural Products Cohort)
 Precursor mass distribution across the natural products cohort ($0 - 1200\,\text{Da}$), showing dense concentration between $300 - 600\,\text{Da}$ where bio-active secondary metabolites predominate.
 ![10 · Chemical Mass Space Distribution](reports/figures/10_precursor_mass.png)
+
+### 11. Interactive Web Dashboard UI
+Glassmorphic dark-mode scientific web application operating on port 8501 featuring real-time neural fingerprint regression, sub-ppm precursor mass filtering, interactive Plotly mass spectrum fragmentation profiles, and automated 2D chemical structure rendering via RDKit with InChIKey14 verification.
+![Interactive Web Dashboard UI](reports/figures/ui_dashboard.png)
 
 ---
 
@@ -391,6 +396,8 @@ Open **[http://localhost:8501](http://localhost:8501)** to:
 - Select ionization adducts ($[M+H]^+$, $[M+Na]^+$, $[M-H]^-$, etc.).
 - Run real-time neural fingerprint prediction and candidate retrieval.
 - Render candidate 2D chemical structure graphs via RDKit with InChIKey14 verification.
+
+![Interactive Web Dashboard UI](reports/figures/ui_dashboard.png)
 
 ### 2. High-Throughput FastAPI Microservice
 Launch the production REST API:
