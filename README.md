@@ -163,9 +163,9 @@ This research project and benchmark platform is collaboratively developed under 
 | Role | Name | Designation & Affiliation | Research & Project Contribution |
 | :--- | :--- | :--- | :--- |
 | **Faculty Research Supervisor** | **Dr. Asif Assad\*** | Senior Assistant Professor & Faculty Supervisor, Dept. of CSE, IUST | Project Supervision, Research Direction, Theoretical Review & Methodological Oversight |
-| **Project Lead & Contributing Student** | **Dar Rehan Rasool** | M.Tech Student, Centre for Artificial Intelligence, IUST | End-to-End System Architecture, SpectrumFPNet Model, Out-of-Core Big-Data Streaming, Candidate Retrieval & Dashboard |
-| **Contributing Student** | **Muneeb Syed Shah** | M.Tech Student, Centre for Artificial Intelligence, IUST | Mass Spectrometry Data Preprocessing, Adduct Formulation, Feature Engineering |
-| **Contributing Student** | **Shafiya Bashir Pampori** | M.Tech Student, Centre for Artificial Intelligence, IUST | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
+| **Project Lead & Contributing Student** | [**Dar Rehan Rasool**](https://github.com/darrehanrasool) | M.Tech Student, Centre for Artificial Intelligence, IUST | End-to-End System Architecture, SpectrumFPNet Model, Out-of-Core Big-Data Streaming, Candidate Retrieval & Dashboard |
+| **Contributing Student** | [**Muneeb Syed Shah**](https://github.com/muneebsyed-oss) | M.Tech Student, Centre for Artificial Intelligence, IUST | Mass Spectrometry Data Preprocessing, Adduct Formulation, Feature Engineering |
+| **Contributing Student** | [**Shafiya Bashir Pampori**](https://github.com/Shafiya-Bashir) | M.Tech Student, Centre for Artificial Intelligence, IUST | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
 
 - **Academic Unit**: Centre for Artificial Intelligence (CAI) & Department of Computer Science & Engineering (CSE)
 - **Institution**: Islamic University of Science and Technology (IUST), Awantipora, Kashmir, India
