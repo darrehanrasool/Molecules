@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Lead Author](https://img.shields.io/badge/Lead%20Author-Dar%20Rehan%20Rasool-0284c7.svg)](https://github.com/darrehanrasool)
+[![Project Lead](https://img.shields.io/badge/Project%20Lead-Dar%20Rehan%20Rasool-0284c7.svg)](https://github.com/darrehanrasool)
 [![Copyright](https://img.shields.io/badge/Copyright-%40darrehanrasool-10b981.svg)](https://github.com/darrehanrasool)
 
 A production-grade, end-to-end Machine Learning laboratory and research platform that solves the ill-posed chemical inverse problem of small molecule structure elucidation from tandem mass spectrometry ($\text{LC-MS/MS}$). Engineered for the **Enveda CASMI 2026 Challenge** (*Molecule ID from Mass Spectra*), it projects collision-induced dissociation ($\text{CID}$) spectra into a dense $12,001$-dimensional spectral representation, regresses $2048$-bit Morgan circular fingerprints ($\text{ECFP4}$), and executes sub-ppm monoisotopic precursor mass deconvolution ($\pm 15\,\text{ppm}$) across a curated repository of **717,000+ unified natural product chemical structures** with planar skeleton $\text{InChIKey14}$ deduplication.
@@ -163,9 +163,9 @@ This research project and benchmark platform is collaboratively developed under 
 | Role | Name | Designation & Affiliation | Research & Project Contribution |
 | :--- | :--- | :--- | :--- |
 | **Faculty Research Supervisor** | **Dr. Asif Assad\*** | Senior Assistant Professor & Faculty Supervisor, Dept. of CSE, IUST | Project Supervision, Research Direction, Theoretical Review & Methodological Oversight |
-| **Lead Author & Principal Researcher** | **Dar Rehan Rasool** | M.Tech Student, Centre for Artificial Intelligence, IUST | End-to-End System Architecture, SpectrumFPNet Model, Out-of-Core Big-Data Streaming, Candidate Retrieval & Dashboard |
-| **Contributing Researcher** | **Muneeb Syed Shah** | M.Tech Student, Centre for Artificial Intelligence, IUST | Mass Spectrometry Data Preprocessing, Adduct Formulation, Feature Engineering |
-| **Contributing Researcher** | **Shafiya Bashir Pampori** | M.Tech Student, Centre for Artificial Intelligence, IUST | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
+| **Project Lead & Contributing Student** | **Dar Rehan Rasool** | M.Tech Student, Centre for Artificial Intelligence, IUST | End-to-End System Architecture, SpectrumFPNet Model, Out-of-Core Big-Data Streaming, Candidate Retrieval & Dashboard |
+| **Contributing Student** | **Muneeb Syed Shah** | M.Tech Student, Centre for Artificial Intelligence, IUST | Mass Spectrometry Data Preprocessing, Adduct Formulation, Feature Engineering |
+| **Contributing Student** | **Shafiya Bashir Pampori** | M.Tech Student, Centre for Artificial Intelligence, IUST | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
 
 - **Academic Unit**: Centre for Artificial Intelligence (CAI) & Department of Computer Science & Engineering (CSE)
 - **Institution**: Islamic University of Science and Technology (IUST), Awantipora, Kashmir, India
