@@ -174,6 +174,14 @@ This research project and benchmark platform is collaboratively developed under 
 
 ---
 
+## 👥 Contributors
+
+- [**Shafiya Bashir**](https://github.com/Shafiya-Bashir) (`@Shafiya-Bashir`) — Contributor
+- [**Dar Rehan Rasool**](https://github.com/darrehanrasool) (`@darrehanrasool`) — Project Lead & Maintainer
+- [**Muneeb Syed Shah**](https://github.com/muneebsyed-oss) (`@muneebsyed-oss`) — Contributor
+
+---
+
 ## 🔬 Scientific Validation: Data Leakage Elimination & Dual Pipeline Strategy
 
 ### 1. The Multi-Collision Energy Leakage Phenomenon
