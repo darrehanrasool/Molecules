@@ -165,7 +165,7 @@ This research project and benchmark platform is collaboratively developed under 
 | **Faculty Research Supervisor** | **Dr. Asif Assad\*** | Senior Assistant Professor & Faculty Supervisor, Dept. of CSE, IUST | Project Supervision, Research Direction, Theoretical Review & Methodological Oversight |
 | **Project Lead & Contributing Student** | [**Dar Rehan Rasool**](https://github.com/darrehanrasool) | M.Tech Student, Centre for Artificial Intelligence, IUST | End-to-End System Architecture, SpectrumFPNet Model, Out-of-Core Big-Data Streaming, Candidate Retrieval & Dashboard |
 | **Contributing Student** | [**Muneeb Syed Shah**](https://github.com/muneebsyed-oss) | M.Tech Student, Centre for Artificial Intelligence, IUST | Mass Spectrometry Data Preprocessing, Adduct Formulation, Feature Engineering |
-| **Contributing Student** | [**Shafiya Bashir Pampori**](https://github.com/Shafiya-Bashir) | M.Tech Student, Centre for Artificial Intelligence, IUST | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
+| **Contributing Student** | [**Shafiya Bashir Pampori**](https://github.com/shafiyabashirpampori) | M.Tech Student, Centre for Artificial Intelligence, IUST | Chemical Candidate Filtering, Tanimoto Verification & Statistical Benchmark Validation |
 
 - **Academic Unit**: Centre for Artificial Intelligence (CAI) & Department of Computer Science & Engineering (CSE)
 - **Institution**: Islamic University of Science and Technology (IUST), Awantipora, Kashmir, India
@@ -176,7 +176,7 @@ This research project and benchmark platform is collaboratively developed under 
 
 ## 👥 Contributors
 
-- [**Shafiya Bashir**](https://github.com/Shafiya-Bashir) (`@Shafiya-Bashir`) — Contributor
+- [**Shafiya Bashir**](https://github.com/shafiyabashirpampori) (`@shafiyabashirpampori`) — Contributor
 - [**Dar Rehan Rasool**](https://github.com/darrehanrasool) (`@darrehanrasool`) — Project Lead & Maintainer
 - [**Muneeb Syed Shah**](https://github.com/muneebsyed-oss) (`@muneebsyed-oss`) — Contributor
 
